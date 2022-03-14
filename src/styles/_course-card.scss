@@ -1,0 +1,492 @@
+// .CourseCard__block {
+//   transition: all 0.4s ease;
+
+//   &:hover {
+//     transform: translateY(-10px);
+
+//     .CourseCard__folder.CourseCard__folder--black {
+//       box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+//     }
+//   }
+// }
+
+// .CourseCard__folder {
+//   position: relative;
+//   cursor: pointer;
+//   background: #F8F8F8;
+//   height: 100%;
+//   min-height: 200px;
+//   border-radius: 0px 5px 5px 5px;
+//   transition: all 0.4s ease;
+// }
+
+// .CourseCard__folder-tag {
+//   width: 64px;
+//   height: 16px;
+//   display: flex;
+// }
+
+// .folder-tag__tag-left {
+//   width: 8px;
+//   border-top: 8px transparent solid;
+//   border-right: 4px #F8F8F8 solid;
+//   border-bottom: 8px #F8F8F8 solid;
+//   border-left: 4px transparent solid;
+// }
+
+// .folder-tag__tag-center {
+//   flex: 1;
+//   background-color: #F8F8F8;
+// }
+
+// .folder-tag__tag-right {
+//   width: 8px;
+//   border-top: 8px transparent solid;
+//   border-right: 4px transparent solid;
+//   border-bottom: 8px #F8F8F8 solid;
+//   border-left: 4px #F8F8F8 solid;
+// }
+
+// .CourseCard__folder-tag--black > .folder-tag__tag-left {
+//   border-right: 4px #171729 solid;
+//   border-bottom: 8px #171729 solid;
+// }
+
+// .CourseCard__folder-tag--black > .folder-tag__tag-center {
+//   background-color: #171729;
+// }
+
+// .CourseCard__folder-tag--black > .folder-tag__tag-right {
+//   border-bottom: 8px #171729 solid;
+//   border-left: 4px #171729 solid;
+// }
+
+// .CourseCard__folder--black {
+//   background: #171729;
+// }
+
+// .CourseCard__folder--black::before {
+//   background: #171729;
+// }
+
+// .CourseCard__row {
+//   height: 100%;
+// }
+
+// .CourseCard__title {
+//   font-size: 14px;
+//   line-height: 20px;
+//   letter-spacing: 0.02em;
+//   color: #9FA4B1;
+// }
+
+// .CourseCard__title--dark {
+//   color: #5A6275;
+// }
+
+// .CourseCard__name {
+//   color: #171729;
+//   font-style: normal;
+//   font-weight: 600;
+//   font-size: 16px;
+//   line-height: 24px;
+//   letter-spacing: 0.02em;
+//   word-break: break-word;
+// }
+
+// .CourseCard__name--dark {
+//   color: #FFFFFF;
+// }
+
+// .CourseCard__description {
+//   font-style: normal;
+//   font-weight: normal;
+//   font-size: 14px;
+//   line-height: 20px;
+//   letter-spacing: 0.02em;
+// }
+
+// .CourseCard__num-container {
+//   /* height: 100%; */
+//   min-width: 2.5rem;
+//   border-bottom: 3px solid #FFFFFF;
+// }
+
+// .CourseCard__date__num {
+//   text-align: center;
+//   font-style: normal;
+//   font-weight: 600;
+//   font-size: 28px;
+//   line-height: 32px;
+// }
+
+// .CourseCard__progress-container {
+//   width: 32px;
+//   height: 32px;
+//   display: flex;
+//   align-items: center;
+//   transform: rotate(270deg);
+// }
+
+// /* text colors */
+// .CourseCard__text--primary {
+//   color: #0BC4B8;
+// }
+
+// .CourseCard__text--secondary {
+//   color: #66F0E3;
+// }
+
+// .CourseCard__text--live {
+//   color: #F16635;
+// }
+
+// .CourseCard__text--white {
+//   color: #FFFFFF;
+// }
+
+// .CourseCard__text--gray {
+//   color: #5A6275;
+// }
+
+// .CourseCard__col {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+//   height: 100%;
+// }
+
+
+// .course-card {
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   margin-bottom: 24px;
+//   cursor: pointer;
+
+//   &:hover {
+//     .course-card--active__body:after {
+//       top: -20px;
+//     }
+
+//     .course-card--coming:before, .course-card--finished:before {
+//       top: -12px;
+//     }
+//   }
+
+//   &__title {
+//     color: #FFFFFF;
+//     font-weight: bold;
+//     font-size: 22px;
+//     line-height: 24px;
+//     letter-spacing: 0.02em;
+//     margin-bottom: 32px;
+//   }
+
+//   &__progress {
+//     display: flex;
+//     align-items: center;
+//     gap: 12px;
+
+//     & .v-progress-linear--rounded {
+//       border-radius: 50px !important;
+//     }
+
+//     span {
+//       font-weight: 500;
+//       font-size: 14px;
+//       line-height: 16px;
+//       letter-spacing: 0.01em;
+//       color: #F0F2F6;
+//     }
+//   }
+
+//   &__time-left {
+//     font-size: 14px;
+//     line-height: 16px;
+//     letter-spacing: 0.02em;
+//     color: #9FA4B1;
+//   }
+
+//   &__module {
+//     font-weight: 500;
+//     font-size: 14px;
+//     line-height: 16px;
+//     letter-spacing: 0.02em;
+//     text-transform: lowercase;
+//     color: #9DAABC;
+//   }
+
+//   &__separator {
+//     font-size: 20px;
+//     line-height: 20px;
+//     margin-bottom: 2px;
+//     color: #9DAABC;
+//   }
+
+//   &__lessons {
+//     font-size: 14px;
+//     line-height: 16px;
+//     letter-spacing: 0.02em;
+//     color: #66F0E3;
+//   }
+
+//   &--active {
+//     margin-top: -1.5px;
+//     background-color: #262940;
+//     border-top-right-radius: 10px;
+//     padding-top: 36px;
+//     z-index: 0;
+
+//     &__body {
+//       position: relative;
+//       background-color: #262940;
+//       box-shadow: 0 -7px 5px -5px rgba(12, 12, 24, 0.56);
+//       border-radius: 10px 10px 0 0;
+//       width: 100%;
+//       height: 100%;
+//       padding: 32px 24px;
+//       display: flex;
+
+//       &:after {
+//         content: "";
+//         position: absolute;
+//         top: -14px;
+//         background-color: #F0F2F6;
+//         width: 90%;
+//         height: 50px;
+//         border-radius: 10px;
+//         left: 50%;
+//         z-index: -1;
+//         transform: translateX(-50%);
+//         transition: top .3s ease;
+//       }
+
+//       &__icon-container {
+//         width: 72px;
+//         height: 72px;
+//         padding: 15px;
+//         background: #383D57;
+//         border-radius: 1000px;
+//         display: grid;
+//         place-items: center;
+//       }
+//     }
+
+//     &__chip--live {
+//       border-radius: 5px !important;
+//       background-color: #F0BC36;
+
+//       span {
+//         font-weight: 600;
+//         font-size: 14px;
+//         line-height: 16px;
+//         letter-spacing: 0.02em;
+//         color: #171729 !important;
+//       }
+
+//       svg {
+//         path {
+//           fill: #171729;
+//         }
+//       }
+//     }
+
+//     &__footer {
+//       background-color: #383D57;
+//       border-radius: 0 0 10px 10px;
+
+//       &__text {
+//         span {
+//           font-size: 14px;
+//           line-height: 16px;
+//           letter-spacing: 0.02em;
+
+//           &:first-child {
+//             color: #9FA4B1;
+//           }
+
+//           &:last-child {
+//             color: #FFFFFF;
+//             margin-left: 4px;
+//           }
+//         }
+//       }
+
+//       &__btn {
+//         border: 2px solid #0bc3b8;
+//         font-weight: 600;
+//         border-radius: 7px;
+//         font-size: 16px !important;
+//         letter-spacing: 0.01em;
+//       }
+//     }
+//   }
+
+//   &--coming {
+//     margin-top: -1.5px;
+//     position: relative;
+//     background-color: #262940;
+//     border-radius: 0 10px 10px 10px;
+//     box-shadow: 0 -7px 5px -5px rgba(0, 0, 0, 0.4);
+
+//     &__title {
+//       font-weight: 600;
+//       font-size: 18px;
+//       line-height: 24px;
+//       letter-spacing: 0.02em;
+//       color: #FFFFFF;
+//     }
+
+//     &__icon-container {
+//       width: 44px;
+//       height: 44px;
+//       padding: 6px;
+//       background: #383D57;
+//       border-radius: 7px;
+//       display: grid;
+//       place-items: center;
+//     }
+
+//     &__footer {
+//       border-top: 1px solid #383D57;
+//       margin: 0 20px;
+//       padding: 18px 0;
+
+//       &__text {
+//         span:first-child {
+//           font-size: 14px;
+//           line-height: 16px;
+//           letter-spacing: 0.02em;
+//           color: #9FA4B1;
+//         }
+
+//         div {
+//           span:first-child {
+//             font-weight: 600;
+//             font-size: 16px;
+//             line-height: 16px;
+//             color: #F0F2F6;
+//           }
+//           span {
+//             font-weight: 500;
+//             font-size: 14px;
+//             color: #CDD3DA;
+//             display: inline-block;
+//             margin-left: 3px;
+//           }
+//         }
+//       }
+
+//       &__btn {
+//         font-weight: 600;
+//         font-size: 16px;
+//         line-height: 18px;
+//         letter-spacing: 0.01em;
+//         color: #0BC3B8;
+
+//         .course-card__coming__footer__btn-container {
+//           border-bottom: 2px solid transparent;
+//           transition: all 0.3s ease;
+//           cursor: pointer;
+//         }
+
+//         &:hover {
+//           .course-card__coming__footer__btn-container {
+//             border-bottom: 2px solid #0BC3B8;
+//           }
+//         }
+//       }
+//     }
+
+//     &:before {
+//       background-color: #F0F2F6;
+//     }
+
+//     &:after {
+//       background-color: #171729;
+//     }
+//   }
+
+//   &--finished {
+//     margin-top: -2px;
+//     position: relative;
+//     background-color: #F5F6F8;
+//     border-radius: 0 10px 10px 10px;
+//     box-shadow: 0 -7px 5px -5px rgba(23, 23, 41, 0.12);
+
+//     &__shape {
+//       z-index: 1;
+//       path {
+//         fill: #F5F6F8;
+//       }
+//     }
+
+//     &__title {
+//       flex: 1;
+//       font-weight: 600;
+//       font-size: 18px;
+//       line-height: 24px;
+//       letter-spacing: 0.02em;
+//       color: #171729;
+//     }
+
+//     &__score {
+//       padding: 12px 0 16px 0;
+
+//       span:first-child {
+//         font-size: 14px;
+//         line-height: 16px;
+//         letter-spacing: 0.02em;
+//         color: #171729;
+//       }
+
+//       span:last-child {
+//         font-weight: 500;
+//         font-size: 14px;
+//         line-height: 24px;
+//         letter-spacing: 0.02em;
+//         color: #9FA4B1;
+//         margin-left: 4px;
+
+//         b {
+//           font-size: 16px;
+//           color: #171729;
+//         }
+//       }
+//     }
+
+//     &:before {
+//       background-color: #FFFFFF;
+//     }
+
+//     &:after {
+//       background-color: #E8E8E8;
+//     }
+//   }
+// }
+
+// .course-card--coming:before, .course-card--finished:before {
+//   content: "";
+//   position: absolute;
+//   top: -8px;
+//   background-color: #FFFFFF;
+//   width: 96%;
+//   height: 50px;
+//   border-radius: 10px;
+//   left: 50%;
+//   z-index: -1;
+//   transform: translateX(-50%);
+//   transition: top .3s ease;
+// }
+
+// .course-card--coming:after, .course-card--finished:after {
+//   content: "";
+//   position: absolute;
+//   left: 0;
+//   right: 0;
+//   top: -18px;
+//   height: 50px;
+//   border-radius: 10px 10px 0 0;
+//   z-index: -2;
+// }

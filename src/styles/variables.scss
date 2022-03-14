@@ -1,0 +1,22 @@
+// this file will hookup automaticly
+
+// Set this as in design
+// .theme--dark.v-navigation-drawer
+$body-font-family: 'Inter', sans-serif;
+$tabs-item-focus-opacity: 0 !default;
+$tabs-item-hover-opacity: 0 !default;
+$btn-toggle-btn-opacity: 1 !default;
+$skeleton-loader-avatar-height: 130px !default;
+$skeleton-loader-avatar-width: 130px !default;
+// $text-field-enclosed-details-padding: 0 !default;
+$calendar-event-right-empty: 0;
+$material-dark: (
+  'app-bar': #171729,
+  'navigation-drawer': #171729,
+  'background': #171729,
+  'cards': #171729,
+);
+
+$material-light: (
+  'app-bar': #FFF,
+);

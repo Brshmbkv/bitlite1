@@ -1,0 +1,54 @@
+stages:
+  - build
+  - deploy
+
+cache:
+  paths:
+    - node_modules/
+
+npm_build:
+  stage: build
+  only:
+    - dev
+    - dev2
+    - production
+  artifacts:
+    when: on_success
+    expose_as: 'build output'
+    paths: ['dist']
+    expire_in: 2h
+  script:
+    - npm install
+    - export NODE_OPTIONS=--max-old-space-size=4096
+    - npm run build -- --mode $CI_COMMIT_REF_NAME || exit 1
+  interruptible: true
+# Test app with prod server
+deploy_dev:
+  stage: deploy
+  only:
+    - dev
+  environment:
+    name: dev
+    url: https://dev.edu.bitlab.academy/
+  script:
+    - scp -rp -P 65122 -o "StrictHostKeyChecking=no" ./dist bitman@app.bitlab.academy:/home/bitman/runner-target-dev
+# Test app with dev server
+deploy_dev2:
+  stage: deploy
+  only:
+    - dev2
+  environment:
+    name: dev2
+    url: https://dev2.edu.bitlab.academy/
+  script:
+    - scp -rp -P 65122 -o "StrictHostKeyChecking=no" ./dist bitman@app.bitlab.academy:/home/bitman/runner-target-dev2
+
+deploy_prod:
+  stage: deploy
+  only:
+    - production
+  environment:
+    name: production
+    url: https://edu.bitlab.academy/
+  script:
+    - scp -rp -P 65122 -o "StrictHostKeyChecking=no" ./dist bitman@app.bitlab.academy:/home/bitman/runner-target-prod

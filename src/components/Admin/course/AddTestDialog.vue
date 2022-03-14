@@ -1,0 +1,170 @@
+<template>
+  <div class="add-dialog">
+    <v-dialog
+      v-model="dialog"
+      @click:outside="$emit('close-dialog')"
+      max-width="700px"
+    >
+      <v-form @submit.prevent="addTest">
+        <v-card
+          class="px-3"
+        >
+          <v-card-title>
+            <span class="add-dialog__header-text mt-4 mb-4">Добавление теста</span>
+            <div
+              class="ml-auto d-flex"
+              style="height: 40px !important;"
+            >
+              <p class="add-dialog__label-for-input mb-0 align-self-center">Порядок</p>
+              <v-text-field
+                v-model="testOrder"
+                required
+                outlined
+                type="number"
+                dense
+                class="add-dialog__v-text-field ml-3"
+                style="max-width: 150px; height: 40px !important;"
+                :error-messages="
+                      addTestErrors.hasOwnProperty('order')
+                        ? addTestErrors.order
+                          : ''
+                    "
+              >
+              </v-text-field>
+            </div>
+          </v-card-title>
+          <v-card-text>
+            <v-row>
+              <v-col
+                cols="12"
+                class="py-0"
+              >
+                <p class="add-dialog__label-for-input">Название теста</p>
+                <v-text-field
+                  v-model="testTitle"
+                  required
+                  outlined
+                  dense
+                  :error-messages="
+                      addTestErrors.hasOwnProperty('title')
+                        ? addTestErrors.title
+                          : ''
+                    "
+                  class="add-dialog__v-text-field"
+                ></v-text-field>
+              </v-col>
+<!--              <v-col-->
+<!--                cols="12"-->
+<!--                class="py-0"-->
+<!--              >-->
+<!--                <p class="add-dialog__label-for-input">Описание главы</p>-->
+<!--                <v-textarea-->
+<!--                  v-model="chapterDescription"-->
+<!--                  required-->
+<!--                  outlined-->
+<!--                  height="100"-->
+<!--                  no-resize-->
+<!--                  class="add-dialog__v-text-field"-->
+<!--                >-->
+<!--                </v-textarea>-->
+<!--              </v-col>-->
+            </v-row>
+          </v-card-text>
+          <v-card-actions
+            class="justify-end mr-4 pb-5"
+          >
+            <v-btn
+              :ripple="false"
+              :elevation="0"
+              :disabled="!testTitle || !testOrder || loading"
+              :loading="loading"
+              color="#0BC4B8"
+              type="submit"
+              class="text-capitalize white--text px-sm-8 py-sm-6"
+            >Сохранить
+            </v-btn>
+            <v-btn
+              :ripple="false"
+              :elevation="0"
+              color="#9FA4B1"
+              class="text-capitalize white--text px-sm-8 py-sm-6 ml-5"
+              @click="() => {
+                  $emit('close-dialog')
+                  this.addTestErrors = []
+                  this.testTitle = ''
+                  this.testOrder = this.nextOrder
+                }"
+            >Отмена
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-form>
+    </v-dialog>
+  </div>
+</template>
+
+<script>
+import { mdiUnfoldMoreHorizontal } from '@mdi/js'
+  
+
+export default {
+  name: "AddTestDialog",
+  props: {
+    dialog: {
+      type: Boolean,
+      default: false,
+    },
+    nextOrder: {
+      type: Number,
+      default: -1,
+    },
+    testable_id: {
+      type: [Number, String]
+    }
+  },
+  data() {
+    return {
+      loading: false,
+      addTestErrors: [],
+      mdiUnfoldMoreHorizontal,
+      testTitle: '',
+      testOrder: '',
+    }
+  },
+
+  watch: {
+    nextOrder: {
+      handler(newValue, oldValue) {
+        if (newValue !== oldValue) {
+          this.testOrder = this.nextOrder
+        }
+      },
+      immediate: true
+    }
+  },
+
+  methods: {
+    async addTest() {
+      this.loading = true
+      this.addTestErrors = []
+      await this.$axios.post('admin/tests', {
+        order: this.testOrder,
+        title: this.testTitle,
+        testable_id: this.testable_id,
+      })
+        .then(() => {
+          this.$emit('close-dialog')
+          this.$emit('update-tests')
+        })
+        .catch(err => {
+          if (err.response && err.response.data && err.response.data.errors) {
+            this.addTestErrors = err.response.data.errors
+          }
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    }
+  }
+}
+</script>
