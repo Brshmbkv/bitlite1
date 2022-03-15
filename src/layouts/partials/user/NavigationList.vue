@@ -74,7 +74,7 @@
       <!--          <v-list-item-title>История покупок</v-list-item-title>-->
       <!--        </v-list-item-content>-->
       <!--      </v-list-item>-->
-      <v-list-item
+      <!-- <v-list-item
         :ripple="false"
         link
         active-class="primary-text"
@@ -88,7 +88,7 @@
         <v-list-item-content>
           <v-list-item-title>Личный кабинет</v-list-item-title>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
     </template>
     <!-- STUDENT END -->
     <!-- TEACHER START -->
@@ -121,7 +121,7 @@
           <v-list-item-title>Гайдлайны</v-list-item-title>
         </v-list-item-content>
       </v-list-item> -->
-      <v-list-item
+      <!-- <v-list-item
         :ripple="false"
         link
         active-class="primary-text"
@@ -135,7 +135,7 @@
         <v-list-item-content>
           <v-list-item-title>Личный кабинет</v-list-item-title>
         </v-list-item-content>
-      </v-list-item>
+      </v-list-item> -->
     </template>
     <!-- TEACHER END -->
     <v-list-item :ripple="{ class: 'red--text' }" link @click="logout">
