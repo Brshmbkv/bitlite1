@@ -7,18 +7,15 @@
       max-width="700px"
     >
       <v-form @submit.prevent="editStream">
-        <v-card
-          class="px-3"
-        >
+        <v-card class="px-3">
           <v-card-title>
-            <span class="add-dialog__header-text mt-4 mb-4">Редактирование потока</span>
+            <span class="add-dialog__header-text mt-4 mb-4"
+              >Редактирование потока</span
+            >
           </v-card-title>
           <v-card-text>
             <v-row>
-              <v-col
-                cols="12"
-                class="py-0"
-              >
+              <v-col cols="12" class="py-0">
                 <p class="add-dialog__label-for-input">Название</p>
                 <v-text-field
                   v-model="stream.name"
@@ -26,17 +23,14 @@
                   outlined
                   dense
                   :error-messages="
-                      editStreamErrors.hasOwnProperty('name')
-                        ? editStreamErrors.name
-                          : ''
-                    "
+                    editStreamErrors.hasOwnProperty('name')
+                      ? editStreamErrors.name
+                      : ''
+                  "
                   class="add-dialog__v-text-field"
                 ></v-text-field>
               </v-col>
-              <v-col
-                cols="12"
-                class="py-0"
-              >
+              <v-col cols="12" class="py-0">
                 <p class="add-dialog__label-for-input">Описание</p>
                 <v-textarea
                   v-model="stream.description"
@@ -48,34 +42,28 @@
                 >
                 </v-textarea>
               </v-col>
-              <v-col
-                cols="12"
-                md="4"
-                class="py-0"
-              >
+              <v-col cols="12" md="4" class="py-0">
                 <p class="add-dialog__label-for-input">Тип</p>
                 <v-select
                   :items="types"
                   v-model="stream.type"
                   item-text="title"
                   item-value="title"
+                  item-color="#4376FB"
+                  color="asdasd"
                   :menu-props="{ bottom: true, offsetY: true }"
                   dense
                   class="add-dialog__v-text-field"
                   outlined
                   :append-icon="mdiUnfoldMoreHorizontal"
                   :error-messages="
-                      editStreamErrors.hasOwnProperty('type_id')
-                        ? editStreamErrors.type_id
-                          : ''
-                    "
+                    editStreamErrors.hasOwnProperty('type_id')
+                      ? editStreamErrors.type_id
+                      : ''
+                  "
                 ></v-select>
               </v-col>
-              <v-col
-                cols="12"
-                md="4"
-                class="py-0"
-              >
+              <v-col cols="12" md="4" class="py-0">
                 <p class="add-dialog__label-for-input">Мин. количество</p>
                 <v-text-field
                   v-model="stream.min_limit"
@@ -84,18 +72,14 @@
                   outlined
                   dense
                   :error-messages="
-                      editStreamErrors.hasOwnProperty('min_limit')
-                        ? editStreamErrors.min_limit
-                          : ''
-                    "
+                    editStreamErrors.hasOwnProperty('min_limit')
+                      ? editStreamErrors.min_limit
+                      : ''
+                  "
                   class="add-dialog__v-text-field"
                 ></v-text-field>
               </v-col>
-              <v-col
-                cols="12"
-                md="4"
-                class="py-0"
-              >
+              <v-col cols="12" md="4" class="py-0">
                 <p class="add-dialog__label-for-input">Макс. количество</p>
                 <v-text-field
                   v-model="stream.max_limit"
@@ -104,39 +88,45 @@
                   outlined
                   dense
                   :error-messages="
-                      editStreamErrors.hasOwnProperty('max_limit')
-                        ? editStreamErrors.max_limit
-                          : ''
-                    "
+                    editStreamErrors.hasOwnProperty('max_limit')
+                      ? editStreamErrors.max_limit
+                      : ''
+                  "
                   class="add-dialog__v-text-field"
                 ></v-text-field>
               </v-col>
             </v-row>
           </v-card-text>
-          <v-card-actions
-            class="justify-end mr-4 pb-5"
-          >
+          <v-card-actions class="justify-end mr-4 pb-5">
             <v-btn
               :ripple="false"
               :elevation="0"
-              :disabled="!stream.name || !stream.type || !stream.max_limit || !stream.min_limit || loading"
+              :disabled="
+                !stream.name ||
+                  !stream.type ||
+                  !stream.max_limit ||
+                  !stream.min_limit ||
+                  loading
+              "
               :loading="loading"
-              color="#0BC4B8"
+              color="#4376FB"
               type="submit"
               class="text-capitalize white--text px-sm-8 py-sm-6"
-            >Сохранить
+              >Сохранить
             </v-btn>
             <v-btn
               :ripple="false"
               :elevation="0"
               color="#9FA4B1"
               class="text-capitalize white--text px-sm-8 py-sm-6 ml-5"
-              @click="() => {
+              @click="
+                () => {
                   $emit('close-dialog')
                   this.editStreamErrors = []
                   this.stream = undefined
-                }"
-            >Отмена
+                }
+              "
+              >Отмена
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -148,16 +138,15 @@
 <script>
 import { mdiUnfoldMoreHorizontal } from '@mdi/js'
 
-
 export default {
-  name: "EditStreamDialog",
+  name: 'EditStreamDialog',
   props: {
     dialog: {
       type: Boolean,
       default: false,
     },
     stream_id: [Number, String],
-    types: Array
+    types: Array,
   },
   data() {
     return {
@@ -171,28 +160,29 @@ export default {
   watch: {
     dialog: {
       handler(newValue, oldValue) {
-        if(newValue !== oldValue && newValue) {
+        if (newValue !== oldValue && newValue) {
           this.fetchStream()
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
 
   methods: {
     async fetchStream() {
       // TODO Отловить ошибку
-      await this.$axios.get(`admin/groups/${this.stream_id}/edit`)
-        .then(res => {
-          if(res && res.data) {
+      await this.$axios
+        .get(`admin/groups/${this.stream_id}/edit`)
+        .then((res) => {
+          if (res && res.data) {
             this.stream = res.data
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err)
           this.$store.dispatch('snackbar/START_SNACKBAR', {
             text: 'Возникла ошибка!',
-            color: 'red'
+            color: 'red',
           })
         })
     },
@@ -200,33 +190,34 @@ export default {
     async editStream() {
       this.loading = true
       this.editStreamErrors = []
-      await this.$axios.post('admin/streams', {
-        name: this.stream && this.stream.name,
-        description: this.stream && this.stream.description,
-        min_limit: this.stream && this.stream.min_limit,
-        max_limit: this.stream && this.stream.max_limit,
-        type: this.stream && this.stream.type,
-        id: this.stream && this.stream.id
-      })
-        .then(res => {
-          if (res){
+      await this.$axios
+        .post('admin/streams', {
+          name: this.stream && this.stream.name,
+          description: this.stream && this.stream.description,
+          min_limit: this.stream && this.stream.min_limit,
+          max_limit: this.stream && this.stream.max_limit,
+          type: this.stream && this.stream.type,
+          id: this.stream && this.stream.id,
+        })
+        .then((res) => {
+          if (res) {
             this.$emit('close-dialog')
             this.$emit('update-streams')
             this.stream = undefined
           }
         })
-        .catch(err => {
-          this.editStreamErrors = err
-            && err.response
-            && err.response.data
-            && err.response.data.errors
-            || undefined
-
+        .catch((err) => {
+          this.editStreamErrors =
+            (err &&
+              err.response &&
+              err.response.data &&
+              err.response.data.errors) ||
+            undefined
         })
         .finally(() => {
           this.loading = false
         })
-    }
-  }
+    },
+  },
 }
 </script>

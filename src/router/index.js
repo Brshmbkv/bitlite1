@@ -9,7 +9,7 @@ import EnrolPage from '@/views/enrol/course_id'
 import Forbidden from '@/views/static/403'
 import NotFound from '@/views/static/404'
 import Home from '@/views/Home.vue'
-import Login from '@/views/Login';
+import Login from '@/views/Login'
 // import LoginNew from '@/views/LoginNew'
 import ResetPassword from '@/views/ResetPassword'
 import ProfileSettings from '@/views/user/ProfileSettings'
@@ -541,7 +541,6 @@ const routes = [
       permit: 2,
       requiresAuth: true,
       title: 'Каталог курсов',
-      backgroundColor: '#F5F6F8',
     },
   },
   {
@@ -555,7 +554,6 @@ const routes = [
       permit: 2,
       requiresAuth: true,
       title: 'Бесплатные мини-курсы',
-      backgroundColor: '#F5F6F8',
     },
   },
   {
@@ -1142,7 +1140,6 @@ const routes = [
         meta: {
           requiresAuth: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1153,7 +1150,6 @@ const routes = [
         meta: {
           requiresAuth: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1165,7 +1161,6 @@ const routes = [
           showCrumbs: true,
           requiresAuth: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1176,7 +1171,6 @@ const routes = [
         meta: {
           requiresAuth: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1187,7 +1181,6 @@ const routes = [
         meta: {
           requiresAuth: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1197,7 +1190,6 @@ const routes = [
         meta: {
           requiresAuth: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1208,7 +1200,6 @@ const routes = [
         meta: {
           requiresAuth: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1220,7 +1211,6 @@ const routes = [
           requiresAuth: true,
           showCrumbs: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1232,7 +1222,6 @@ const routes = [
           requiresAuth: true,
           showCrumbs: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1244,7 +1233,6 @@ const routes = [
           requiresAuth: true,
           showCrumbs: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1256,7 +1244,6 @@ const routes = [
           requiresAuth: true,
           showCrumbs: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1268,7 +1255,6 @@ const routes = [
           requiresAuth: true,
           showCrumbs: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1280,7 +1266,6 @@ const routes = [
           requiresAuth: true,
           showCrumbs: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1290,7 +1275,6 @@ const routes = [
         meta: {
           requiresAuth: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1302,7 +1286,6 @@ const routes = [
           requiresAuth: true,
           appBarShow: true,
           showCrumbs: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1313,7 +1296,6 @@ const routes = [
         meta: {
           requiresAuth: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1323,7 +1305,6 @@ const routes = [
         meta: {
           requiresAuth: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1333,7 +1314,6 @@ const routes = [
         meta: {
           requiresAuth: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1343,7 +1323,6 @@ const routes = [
         meta: {
           requiresAuth: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1354,7 +1333,6 @@ const routes = [
         meta: {
           requiresAuth: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1366,7 +1344,6 @@ const routes = [
           requiresAuth: true,
           showCrumbs: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1378,7 +1355,6 @@ const routes = [
           requiresAuth: true,
           showCrumbs: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1389,7 +1365,6 @@ const routes = [
         meta: {
           requiresAuth: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
       {
@@ -1400,7 +1375,6 @@ const routes = [
         meta: {
           requiresAuth: true,
           appBarShow: true,
-          backgroundColor: '#F5F6F8',
         },
       },
     ],

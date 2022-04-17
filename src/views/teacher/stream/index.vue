@@ -1,11 +1,13 @@
 <template>
   <v-container>
+    
     <h1>Потоки</h1>
     <v-tabs
       v-model="currentTab"
       style="box-shadow: rgba(23, 23, 41, 0.08) 0px 1px 0px"
       background-color="white"
       class="mb-8"
+      color="eprimary"
     >
       <v-tabs-slider></v-tabs-slider>
       <v-tab class="StudentCourses__tab text-capitalize" href="#active">
@@ -69,6 +71,7 @@
       :text="`Ошибка при запросе ${word()} потоков`"
     />
     <NoCoursesCard v-else :text="`У вас нет ${word()} потоков`" />
+   
   </v-container>
 </template>
 <script>
@@ -88,6 +91,7 @@ export default {
       is_page_loading: false,
       current_page: undefined,
       last_page: undefined,
+      tab: 0,
     }
   },
 

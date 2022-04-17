@@ -14,7 +14,8 @@
         v-model="form.email"
         :disabled="loading"
         :loading="loading"
-        placeholder="example@mail "
+        placeholder="example@gmail.com"
+        color="#4376FB"
         required
         outlined
         :error-messages="errors.hasOwnProperty('phone') ? errors.phone : ''"
@@ -45,6 +46,7 @@
         v-model="form.password"
         :disabled="loading"
         :loading="loading"
+        color="#4376FB"
         :rules="passwordRules"
         :type="showPassword ? 'text' : 'password'"
         name="password"
@@ -63,7 +65,7 @@
         block
         class="white--text"
         style="box-shadow: none"
-        color="#0BC3B8"
+        color="#4376FB"
         type="submit"
         @click="loginValidate"
         >Войти</v-btn
@@ -78,7 +80,13 @@
       </p> -->
       <p class="text-center mt-6">
         <span>Нет аккаунта? </span>
-        <a @click="$emit('change', 'LoginRegistration')">Зарегистрируйтесь</a>
+        <a
+          @click="$emit('change', 'LoginRegistration')"
+          style="
+        color:#4376FB
+        "
+          >Зарегистрируйтесь</a
+        >
       </p>
     </v-form>
   </v-card>
@@ -103,7 +111,7 @@ export default {
       loginValid: true,
       showPassword: false,
       emailRules: [
-        v => /.+@.+\..+/.test(v) || 'Введите корректный E-mail адрес'
+        (v) => /.+@.+\..+/.test(v) || 'Введите корректный E-mail адрес',
       ],
       passwordRules: [(v) => !!v || 'Введите пароль'],
     }

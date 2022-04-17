@@ -1,31 +1,23 @@
 <template>
-  <v-container fluid>
-    <v-row
-      align-content="center"
-      class="ma-0 pa-0"
-    >
+  <v-container style="max-width: 640px; margin: 0 auto;">
+    <v-row align-content="center" class="ma-0 pa-0">
       <v-btn
         class="show-user-courses__v-btn align-self-center ml-0"
         outlined
         :ripple="false"
-        @click="$router.push({name: 'AdminStreamIndex'})"
+        @click="$router.push({ name: 'AdminStreamIndex' })"
       >
-        <v-icon
-          :color="'#5A6275'"
-        >
+        <v-icon :color="'#5A6275'">
           {{ mdiChevronLeft }}
         </v-icon>
         <span class="text-capitalize">Вернуться назад</span>
       </v-btn>
     </v-row>
-    <p
-      style="font-size: 24px"
-      class="font-weight-bold mt-6 mb-3"
-    >Создание потока</p>
-    <v-row
-      align-content="center"
-    >
-      <v-col cols="12" md="4" sm="6">
+    <p style="font-size: 24px" class="font-weight-bold mt-6 mb-3">
+      Создание потока
+    </p>
+    <v-row align-content="center">
+      <v-col>
         <p class="add-dialog__label-for-input">Название потока</p>
         <v-text-field
           v-model="streamTitle"
@@ -36,11 +28,13 @@
           :error-messages="
             addStreamErrors.hasOwnProperty('stream_name')
               ? addStreamErrors.stream_name
-                : ''
+              : ''
           "
         ></v-text-field>
       </v-col>
-      <v-col cols="12" md="4" sm="6">
+    </v-row>
+    <v-row>
+      <v-col>
         <p class="add-dialog__label-for-input">Дата старта</p>
         <v-menu
           ref="menu"
@@ -65,14 +59,11 @@
               :error-messages="
                 addStreamErrors.hasOwnProperty('starts_at')
                   ? addStreamErrors.starts_at
-                    : ''
+                  : ''
               "
             >
               <template v-slot:append>
-                <v-icon
-                  :color="'#171729'"
-                  size="20"
-                >
+                <v-icon :color="'#171729'" size="20">
                   {{ mdiCalendarBlankOutline }}
                 </v-icon>
               </template>
@@ -86,23 +77,22 @@
             locale="ru-RU"
           >
             <v-spacer></v-spacer>
-            <v-btn
-              text
-              color="primary"
-              @click="menu = false"
-            >
+            <v-btn text color="eprimary" @click="menu = false" small>
               Отмена
             </v-btn>
             <v-btn
               text
-              color="primary"
+              color="eprimary"
               @click="$refs.menu.save(streamDate)"
+              small
             >
               OK
             </v-btn>
           </v-date-picker>
         </v-menu>
       </v-col>
+    </v-row>
+    <v-row>
       <v-col cols="12" md="4" sm="6">
         <p class="add-dialog__label-for-input">Курс</p>
         <v-select
@@ -110,6 +100,8 @@
           v-model="streamCourse"
           item-text="title"
           item-value="id"
+          item-color="#4376FB"
+          color="#4376FB"
           :menu-props="{ bottom: true, offsetY: true }"
           dense
           class="add-dialog__v-text-field"
@@ -118,7 +110,7 @@
           :error-messages="
             addStreamErrors.hasOwnProperty('course_id')
               ? addStreamErrors.course_id
-                : ''
+              : ''
           "
         ></v-select>
       </v-col>
@@ -126,15 +118,16 @@
         <p class="add-dialog__label-for-input">Лектор</p>
         <v-select
           :items="lectors"
+          item-color="#4376FB"
+          color="#4376FB"
           v-model="streamLector"
-          :item-text="item => item.first_name +' '+ item.last_name"
+          :item-text="(item) => item.first_name + ' ' + item.last_name"
           item-value="id"
           :menu-props="{ bottom: true, offsetY: true }"
           dense
           class="add-dialog__v-text-field"
           outlined
           :append-icon="mdiUnfoldMoreHorizontal"
-
         ></v-select>
       </v-col>
       <v-col cols="12" md="4" sm="6">
@@ -144,15 +137,15 @@
           v-model="streamType"
           item-text="value"
           item-value="value"
+          item-color="#4376FB"
+          color="#4376FB"
           :menu-props="{ bottom: true, offsetY: true }"
           dense
           class="add-dialog__v-text-field"
           outlined
           :append-icon="mdiUnfoldMoreHorizontal"
           :error-messages="
-            addStreamErrors.hasOwnProperty('type')
-              ? addStreamErrors.type
-                : ''
+            addStreamErrors.hasOwnProperty('type') ? addStreamErrors.type : ''
           "
         ></v-select>
       </v-col>
@@ -166,6 +159,8 @@
             v-model="selected_weekday"
             item-value="value"
             item-text="title"
+            item-color="#4376FB"
+            color="#4376FB"
             placeholder="выберите день"
             :menu-props="{ bottom: true, offsetY: true }"
             dense
@@ -177,7 +172,12 @@
           >
           </v-select>
           <div class="stream--create__time-picker">
-            <label for="generate-event__time" class="mr-3" style="color: rgba(0,0,0,0.36)">выберите время</label>
+            <label
+              for="generate-event__time"
+              class="mr-3"
+              style="color: rgba(0,0,0,0.36)"
+              >выберите время</label
+            >
             <input
               v-model="selected_time"
               id="generate-event__time"
@@ -188,7 +188,7 @@
             elevation="0"
             :ripple="false"
             :disabled="!selected_time || !selected_weekday"
-            color="#0ACCDA"
+            class="plus-btn"
             fab
             tile
             style="border-radius: 5px;"
@@ -196,9 +196,7 @@
             width="40"
             @click="addToDateTimeArray"
           >
-            <v-icon
-              color="white"
-            >
+            <v-icon color="white">
               {{ mdiPlus }}
             </v-icon>
           </v-btn>
@@ -218,17 +216,22 @@
             style="cursor: default; background-color: white !important;"
             class="d-flex align-center justify-space-between pa-6 px-4"
           >
-            <span class="text-capitalize" style="font-weight: 500; font-size: 16px">{{ getWeekDay(date) }}</span>
+            <span
+              class="text-capitalize"
+              style="font-weight: 500; font-size: 16px"
+              >{{ getWeekDay(date) }}</span
+            >
             <span class="mx-4" style="color: rgba(23, 23, 41, 0.4)">|</span>
-            <span class="text-lowercase primary--text">{{ times_array[i] }}</span>
+            <span class="text-lowercase primary--text">{{
+              times_array[i]
+            }}</span>
             <v-icon
               class="ml-4"
               style="border-radius: 100%; padding: 2px; background-color: #EE5252"
               size="21"
               :color="'white'"
               @click="removeFromDates(i)"
-
-            >{{ mdiClose }}
+              >{{ mdiClose }}
             </v-icon>
           </v-chip>
         </v-chip-group>
@@ -236,10 +239,9 @@
     </v-row>
     <template v-if="streamType !== 'lite'">
       <v-divider class="my-6"></v-divider>
-      <p
-        class=""
-        style="font-weight: 600; font-size: 20px"
-      >Добавление группы</p>
+      <p class="" style="font-weight: 600; font-size: 20px">
+        Добавление группы
+      </p>
       <v-data-table
         v-if="groups && groups.length > 0"
         calculate-widths
@@ -268,12 +270,9 @@
         </template>
       </v-data-table>
     </template>
-    <v-row
-      align-content="center"
-      justify="start"
-    >
+    <v-row align-content="center" justify="start">
       <template v-if="streamType !== 'lite'">
-        <v-col cols="12" md="3" sm="5">
+        <v-col cols="12">
           <p class="add-dialog__label-for-input">Название группы</p>
           <v-text-field
             v-model="groupName"
@@ -283,20 +282,21 @@
             class="add-dialog__v-text-field"
           ></v-text-field>
         </v-col>
-        <v-col cols="12" md="3" sm="5">
+        <v-col cols="12">
           <p class="add-dialog__label-for-input">Тренер-практикант</p>
           <div class="d-flex">
             <v-select
               :items="lectors"
               v-model="groupTeacher"
-              :item-text="item => item.first_name +' '+ item.last_name"
+              :item-text="(item) => item.first_name + ' ' + item.last_name"
               item-value="id"
+              item-color="#4376FB"
+              color="#4376FB"
               :menu-props="{ bottom: true, offsetY: true }"
               dense
               class="add-dialog__v-text-field"
               outlined
               :append-icon="mdiUnfoldMoreHorizontal"
-
             ></v-select>
             <v-btn
               tile
@@ -307,13 +307,10 @@
               height="40"
               width="40"
               elevation="0"
-              class="add-stream-group__btn ml-3"
+              class="plus-btn ml-3"
               @click="addGroup"
             >
-              <v-icon
-                :color="'#FFF'"
-                size="30"
-              >
+              <v-icon :color="'#FFF'" size="30">
                 {{ mdiPlus }}
               </v-icon>
             </v-btn>
@@ -324,11 +321,11 @@
         <v-btn
           :ripple="false"
           :elevation="0"
-          color="#0BC4B8"
+          color="#4376FB"
           type="submit"
           class="text-capitalize white--text px-sm-8 py-sm-6"
           @click="storeStream"
-        >Сохранить
+          >Сохранить
         </v-btn>
         <v-btn
           :ripple="false"
@@ -336,9 +333,9 @@
           color="#9FA4B1"
           class="text-capitalize white--text px-sm-8 py-sm-6 ml-5"
           :to="{
-            name: 'AdminStreamIndex'
+            name: 'AdminStreamIndex',
           }"
-        >Отмена
+          >Отмена
         </v-btn>
       </v-col>
     </v-row>
@@ -358,7 +355,7 @@ import TrashIcon from '@/assets/svg/trash.svg'
 import uuid from 'uuid'
 
 export default {
-  name: "AdminStreamNew",
+  name: 'AdminStreamNew',
   components: {
     TrashIcon,
   },
@@ -380,14 +377,14 @@ export default {
       courses: undefined,
       types: [
         {
-          value: 'offline'
+          value: 'offline',
         },
         {
-          value: 'online'
+          value: 'online',
         },
         {
-          value: 'lite'
-        }
+          value: 'lite',
+        },
       ],
       streamCourse: undefined,
       headers: [
@@ -396,7 +393,7 @@ export default {
           align: 'start',
           value: 'name',
           sortable: false,
-          width: 50
+          width: 50,
         },
         { text: '', value: 'teacher', align: 'start', sortable: false },
         { text: '', value: 'options', align: 'end', sortable: false },
@@ -412,31 +409,31 @@ export default {
       weekdays: [
         {
           title: 'Понедельник',
-          value: 'Monday'
+          value: 'Monday',
         },
         {
           title: 'Вторник',
-          value: 'Tuesday'
+          value: 'Tuesday',
         },
         {
           title: 'Среда',
-          value: 'Wednesday'
+          value: 'Wednesday',
         },
         {
           title: 'Четверг',
-          value: 'Thursday'
+          value: 'Thursday',
         },
         {
           title: 'Пятница',
-          value: 'Friday'
+          value: 'Friday',
         },
         {
           title: 'Суббота',
-          value: 'Saturday'
+          value: 'Saturday',
         },
         {
           title: 'Воскресенье',
-          value: 'Sunday'
+          value: 'Sunday',
         },
       ],
       weekdays_array: [],
@@ -452,51 +449,51 @@ export default {
     addGroup() {
       this.group_names.push(this.groupName)
       this.practicant_ids.push(this.groupTeacher)
-      let teacher = this.lectors.find(item => {
+      let teacher = this.lectors.find((item) => {
         return item.id === this.groupTeacher
       })
       console.log('teacher', teacher)
       this.groups.push({
         id: uuid.v4(),
         name: this.groupName,
-        teacher: teacher.first_name + ' ' + teacher.last_name
+        teacher: teacher.first_name + ' ' + teacher.last_name,
       })
       this.groupTeacher = undefined
       this.groupName = undefined
     },
 
     async fetchForStream() {
-      await this.$axios.get('admin/streams/create')
-        .then(res => {
-          if(res && res.data) {
-            console.log(res.data)
-            this.lectors = res.data.lectors
-            this.courses = res.data.courses
-          }
-        })
+      await this.$axios.get('admin/streams/create').then((res) => {
+        if (res && res.data) {
+          console.log(res.data)
+          this.lectors = res.data.lectors
+          this.courses = res.data.courses
+        }
+      })
     },
 
     async storeStream() {
-      await this.$axios.post('admin/streams/storeV2', {
-        stream_name: this.streamTitle,
-        type: this.streamType,
-        course_id: this.streamCourse,
-        lector_id: this.streamLector,
-        starts_at: this.streamDate,
-        group_names: this.group_names,
-        practicant_ids: this.practicant_ids,
-        times: this.times_array,
-        days: this.weekdays_array
-      })
-        .then(res => {
-          if(res && res.data) {
+      await this.$axios
+        .post('admin/streams/storeV2', {
+          stream_name: this.streamTitle,
+          type: this.streamType,
+          course_id: this.streamCourse,
+          lector_id: this.streamLector,
+          starts_at: this.streamDate,
+          group_names: this.group_names,
+          practicant_ids: this.practicant_ids,
+          times: this.times_array,
+          days: this.weekdays_array,
+        })
+        .then((res) => {
+          if (res && res.data) {
             this.$router.push({
-              name: 'AdminStreamIndex'
+              name: 'AdminStreamIndex',
             })
           }
         })
-        .catch(err => {
-          if(err.response && err.response.data && err.response.data.errors) {
+        .catch((err) => {
+          if (err.response && err.response.data && err.response.data.errors) {
             this.addStreamErrors = err.response.data.errors
           }
         })
@@ -504,18 +501,18 @@ export default {
 
     getWeekDay(d) {
       return {
-        'Monday': 'Понедельник',
-        'Tuesday': 'Вторник',
-        'Wednesday': 'Среда',
-        'Thursday': 'Четверг',
-        'Friday': 'Пятница',
-        'Saturday': 'Суббота',
-        'Sunday': 'Воскресенье',
+        Monday: 'Понедельник',
+        Tuesday: 'Вторник',
+        Wednesday: 'Среда',
+        Thursday: 'Четверг',
+        Friday: 'Пятница',
+        Saturday: 'Суббота',
+        Sunday: 'Воскресенье',
       }[d]
     },
 
     deleteGroup(id) {
-      this.groups = this.groups.filter(g => g.id !== id)
+      this.groups = this.groups.filter((g) => g.id !== id)
     },
 
     addToDateTimeArray() {
@@ -528,8 +525,8 @@ export default {
     removeFromDates(i) {
       this.times_array.splice(i, 1)
       this.weekdays_array.splice(i, 1)
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -542,5 +539,17 @@ export default {
   padding: 10px;
   display: flex;
   align-items: center;
+}
+</style>
+
+<style lang="scss" scoped>
+.theme--light.theme--light.plus-btn {
+  background-color: #4376fb;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  &:disabled {
+    background-color: #e4e4e4;
+    cursor: pointer;
+  }
 }
 </style>

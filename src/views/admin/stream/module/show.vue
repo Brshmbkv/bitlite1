@@ -1,17 +1,18 @@
 <template>
   <v-container fluid>
-    <h1
-      class="my-4"
-      style="font-size: 24px; font-weight: 700"
-    >{{ module_title || 'Модуль' }}</h1>
-    <v-divider class="my-6"/>
+    <h1 class="my-4" style="font-size: 24px; font-weight: 700">
+      {{ module_title || 'Модуль' }}
+    </h1>
+    <v-divider class="my-6" />
     <div class="d-flex flex-wrap justify-space-between align-center mb-6">
-      <span style="font-size: 20px; font-weight: 600">Запланированные уроки</span>
+      <span style="font-size: 20px; font-weight: 600"
+        >Запланированные уроки</span
+      >
       <div class="d-flex align-center" style="gap: 10px">
         <v-chip
           :ripple="false"
-          :color="'rgba(10, 204, 218, 0.1)'"
-          :text-color="'#0ACCDA'"
+          color="#4376FB1a"
+          text-color="#4376FB"
           label
           class="py-5"
           @click="repeat_dialog = true"
@@ -23,8 +24,8 @@
         </v-chip>
         <v-chip
           :ripple="false"
-          color="rgba(62, 119, 255, 0.1)"
-          text-color="#3E77FF"
+          color="#4376FB1a"
+          text-color="#4376FB"
           label
           class="py-5"
           @click="generate_dialog = true"
@@ -33,8 +34,8 @@
         </v-chip>
         <v-chip
           :ripple="false"
-          :color="'rgba(92, 198, 137, 0.1)'"
-          :text-color="'#5CC689'"
+          color="#4376FB1a"
+          text-color="#4376FB"
           label
           class="py-5"
           @click="add_dialog = true"
@@ -46,11 +47,7 @@
 
     <div>
       <div v-if="tab_loading" class="d-flex" style="gap: 12px">
-        <v-skeleton-loader
-          v-for="i in 4"
-          :key="i"
-          type="button"
-        />
+        <v-skeleton-loader v-for="i in 4" :key="i" type="button" />
       </div>
       <v-tabs
         v-else
@@ -87,13 +84,17 @@
       :loading="loading"
       :students-count="students_count"
       @refresh="fetchEvents"
-      @edit-event="(event) => {
-         editEvent(event)
-       }"
-      @open-students-dialog="(item) => {
-        this.event_id = item.id
-        this.group_students_dialog = true
-      }"
+      @edit-event="
+        (event) => {
+          editEvent(event)
+        }
+      "
+      @open-students-dialog="
+        (item) => {
+          this.event_id = item.id
+          this.group_students_dialog = true
+        }
+      "
     />
     <RepeatEventDialog
       v-if="!loading"
@@ -118,15 +119,25 @@
 
 <script>
 import { mdiRefresh } from '@mdi/js'
-import ModuleLessonsTable from "@/components/Admin/stream/module/ModuleLessonsTable";
-const RepeatEventDialog = () => import("@/components/Admin/stream/module/RepeatEventDialog");
-const GenerateEventDialog = () => import("@/components/Admin/stream/module/GenerateEventDialog");
-const AddEventDialog = () => import("@/components/Admin/stream/module/AddEventDialog");
-const ModuleGroupStudentsDialog = () => import("@/components/Admin/stream/module/ModuleGroupStudentsDialog");
+import ModuleLessonsTable from '@/components/Admin/stream/module/ModuleLessonsTable'
+const RepeatEventDialog = () =>
+  import('@/components/Admin/stream/module/RepeatEventDialog')
+const GenerateEventDialog = () =>
+  import('@/components/Admin/stream/module/GenerateEventDialog')
+const AddEventDialog = () =>
+  import('@/components/Admin/stream/module/AddEventDialog')
+const ModuleGroupStudentsDialog = () =>
+  import('@/components/Admin/stream/module/ModuleGroupStudentsDialog')
 
 export default {
-  name: "AdminStreamModuleShow",
-  components: { ModuleGroupStudentsDialog, AddEventDialog, GenerateEventDialog, RepeatEventDialog, ModuleLessonsTable },
+  name: 'AdminStreamModuleShow',
+  components: {
+    ModuleGroupStudentsDialog,
+    AddEventDialog,
+    GenerateEventDialog,
+    RepeatEventDialog,
+    ModuleLessonsTable,
+  },
   props: {
     stream_id: [Number, String],
     module_id: [Number, String],
@@ -154,45 +165,45 @@ export default {
     }
   },
   mounted() {
-    this.fetchGroups()
-      .then(() => {
-        this.$store.dispatch("breadcrumbs/setLinks", [
-          {
-            text: 'Все потоки',
-            to: {
-              name: "AdminStreamIndex",
+    this.fetchGroups().then(() => {
+      this.$store.dispatch('breadcrumbs/setLinks', [
+        {
+          text: 'Все потоки',
+          to: {
+            name: 'AdminStreamIndex',
+          },
+        },
+        {
+          text: this.stream_title || 'Поток',
+          to: {
+            name: 'AdminStreamShow',
+            params: {
+              stream_id: this.stream_id,
             },
           },
-          {
-            text: this.stream_title || 'Поток',
-            to: {
-              name: 'AdminStreamShow',
-              params: {
-                stream_id: this.stream_id
-              }
-            }
-          },
-          {
-            text: this.module_title || 'Модуль',
-            disabled: true,
-            // to: { name: 'LessonShow', params: { lesson_id: this.lesson_id }}
-          },
-        ]);
-        this.editable_event = undefined
-      })
+        },
+        {
+          text: this.module_title || 'Модуль',
+          disabled: true,
+          // to: { name: 'LessonShow', params: { lesson_id: this.lesson_id }}
+        },
+      ])
+      this.editable_event = undefined
+    })
   },
   methods: {
     async fetchGroups() {
       this.tab_loading = true
-      await this.$axios.get(`admin/streams/${ this.stream_id }/modules/${ this.module_id }`)
-        .then(res => {
-          if(res?.data) {
+      await this.$axios
+        .get(`admin/streams/${this.stream_id}/modules/${this.module_id}`)
+        .then((res) => {
+          if (res?.data) {
             this.module_title = res?.data?.module?.title
             this.stream_title = res?.data?.stream?.name
-            this.lectors = res?.data?.stream?.lector|| []
+            this.lectors = res?.data?.stream?.lector || []
             this.groups = res?.data?.stream?.groups || []
 
-            if(this.groups && this.groups.length > 0) {
+            if (this.groups && this.groups.length > 0) {
               this.group_id = this.groups[0]?.id
               this.fetchEvents()
             }
@@ -206,9 +217,10 @@ export default {
     async fetchEvents() {
       this.loading = true
       this.events = []
-      await this.$axios.get(`admin/groups/${ this.group_id }/modules/${ this.module_id }/events`)
-        .then(res => {
-          if(res && res.data) {
+      await this.$axios
+        .get(`admin/groups/${this.group_id}/modules/${this.module_id}/events`)
+        .then((res) => {
+          if (res && res.data) {
             this.events = res.data.events
             this.students_count = res?.data?.group?.students_count
           }
@@ -226,11 +238,9 @@ export default {
     editEvent(item) {
       this.editable_event = item
       this.add_dialog = true
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

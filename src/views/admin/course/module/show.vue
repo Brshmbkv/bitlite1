@@ -23,6 +23,7 @@
         :items="chapters"
         :mobile-breakpoint="0"
         hide-default-footer
+        hide-default-header
         :loading="loading"
         @click:row="changeToChapterShowPage"
         class="elevation-0 mt-3 admin-users-table__v-table"

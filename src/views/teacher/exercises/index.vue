@@ -1,42 +1,24 @@
 <template>
   <div>
-    <div style="background: #FAFAFA;">
-      <v-container class="pb-0">
-        <template v-if="tabs_loading">
-          <v-col cols="12">
-            <v-skeleton-loader class="d-inline-block mr-3" type="button" />
-            <v-skeleton-loader class="d-inline-block mr-3" type="button" />
-            <v-skeleton-loader class="d-inline-block mr-3" type="button" />
-          </v-col>
-        </template>
-        <v-row v-else-if="tabs && tabs.length > 0">
-          <v-col
-            cols="12"
-            class="d-flex pb-0 teacher-exercises__group__tabs"
-            style="overflow-x: auto;"
+    <v-container class="pb-0">
+      <template v-if="tabs_loading">
+        <v-col cols="12">
+          <v-skeleton-loader class="d-inline-block mr-3" type="button" />
+          <v-skeleton-loader class="d-inline-block mr-3" type="button" />
+          <v-skeleton-loader class="d-inline-block mr-3" type="button" />
+        </v-col>
+      </template>
+      <v-row v-else-if="tabs && tabs.length > 0">
+        <v-tabs color="eprimary" show-arrows>
+          <v-tab
+            v-for="tab in tabs"
+            :key="'course_tabs_' + tab.id"
+            @click="handleTabClick(tab)"
+            >{{ tab.name }}</v-tab
           >
-            <button
-              v-for="tab in tabs"
-              :key="'course_tabs_' + tab.id"
-              class="CourseIndex__tab"
-              :class="{
-                'CourseIndex__tab--disabled': lessons_loading,
-                'CourseIndex__tab--active': parseInt(group_id) === tab.id,
-              }"
-              :disabled="lessons_loading"
-              @click="handleTabClick(tab)"
-            >
-              <span
-                :style="{
-                  color: parseInt(group_id) === tab.id ? '#0BC4B8' : 'black',
-                }"
-                >{{ tab.name }}</span
-              >
-            </button>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
+        </v-tabs>
+      </v-row>
+    </v-container>
     <v-container class="mt-10" style="margin-bottom: 80px;">
       <template v-if="firstTimeLoading">
         <v-skeleton-loader
@@ -47,7 +29,63 @@
           type="image"
         ></v-skeleton-loader>
       </template>
-      <v-expansion-panels
+      <v-expansion-panels v-else-if="data && data.length > 0" accordion flat>
+        <v-expansion-panel class="panel" v-for="item in data" :key="item.id">
+          <v-expansion-panel-header color="panel-title">
+            {{ item.title }}
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <table style="min-width: 100%; padding-top: 16px; border-collapse: collapse">
+              <thead style="">
+                <tr>
+                  <th style="text-align: center;padding: 10px 16px;">#</th>
+                  <th style="padding: 10px 16px; text-align: left">
+                    Название задания
+                  </th>
+                  <th style="padding: 10px 16px; text-align: left">
+                    Тип задания
+                  </th>
+                  <th style="padding: 10px 16px; text-align:left ">
+                    На проверку
+                  </th>
+                  <th style="padding: 10px 16px; text-align:"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(exercise, index) in item.exercises"
+                  :key="exercise.id"
+                  class="panel-row"
+                >
+                  <td style="font-weight: 500">#{{ index + 1 }}</td>
+                  <td style="font-weight: 500">{{ exercise.title }}</td>
+                  <td style="font-weight: 500">{{ exercise.type.text }}</td>
+                  <td style="font-weight: 500">
+                    {{ exercise.students_count }}
+                  </td>
+                  <td>
+                    <button
+                    style="background-color: #4376FB; color: white; padding: 6px 12px; border-radius: 8px"
+                      @click="
+                        $router.push({
+                          name: 'GroupExerciseShow',
+                          params: {
+                            event_id: item.id,
+                            exercise_id: exercise.id,
+                          },
+                        })
+                      "
+                    >
+                      Проверить
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+      <!-- <v-expansion-panels
         v-else-if="data && data.length > 0"
         class="exercises-to-check-panels"
         accordion
@@ -137,7 +175,7 @@
         <div v-if="loadingNewData">
           <v-progress-circular indeterminate></v-progress-circular>
         </div>
-      </v-expansion-panels>
+      </v-expansion-panels> -->
       <div v-else class="exercises-to-check__empty">
         <div class="exercises-to-check__not-found">
           <v-icon size="120" color="#CED3E0">{{ mdiFileFind }}</v-icon>
@@ -164,12 +202,12 @@ import {
   mdiAccount,
   mdiFileFind,
 } from '@mdi/js'
-import FileIcon from '@/assets/svg/file.svg'
+// import FileIcon from '@/assets/svg/file.svg'
 
 export default {
   name: 'TeacherExercisesIndex',
   components: {
-    FileIcon,
+    // FileIcon,
   },
   data() {
     return {
@@ -306,7 +344,36 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.panel {
+  margin-bottom: 4px;
+  overflow: hidden;
+  & + & {
+    border-top: 1px solid #e4e4e4;
+    margin-top: 4px;
+  }
+  &.v-expansion-panel--active {
+    box-shadow: 0px 0px 5px rgba(23, 23, 41, 0.12);
+    border-radius: 8px;
+    .panel-title {
+      background-color: rgba(#4376fb, 0.05);
+    }
+  }
+  &-title {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 30px;
+  }
+  &-row {
+    & > td {
+      padding: 10px 16px;
+    }
+    & + & {
+      border-top: 1px solid #e4e4e4;
+    }
+  }
+}
+
 .exercises-to-check-panels {
   gap: 24px;
 }

@@ -8,7 +8,6 @@
     >
       <p style="font-size: 24px" class="font-weight-bold">Поток: {{ stream_name }}</p>
     </div>
-    <v-divider></v-divider>
     <h1
       class="my-5 font-weight-bold"
       style="font-size: 20px"
@@ -35,6 +34,7 @@
         class="text-capitalize add-courses-module__btn mr-0"
         text
         :ripple="false"
+
         @click="dialog_module_add = true"
       >
         <span style="font-size: 18px;margin-right: 4px">+</span>

@@ -96,7 +96,7 @@ export default {
       margin-left: 10px;
     }
     &:hover {
-      background-color: rgba(#0bc3b8, 0.8);
+      background-color: #4376FB;
       color: #ffffff;
       & > svg > path {
         fill: #ffffff;

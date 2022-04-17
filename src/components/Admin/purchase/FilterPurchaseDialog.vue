@@ -1,20 +1,14 @@
 <template>
   <div class="add-dialog">
-    <v-dialog
-      v-model="dialog"
-      @click:outside="closeDialog"
-      max-width="700px"
-    >
+    <v-dialog v-model="dialog" @click:outside="closeDialog" max-width="700px">
       <v-form @submit.prevent="filterPurchase">
-        <v-card
-          class="px-3"
-        >
+        <v-card class="px-3">
           <v-card-title>
-            <span class="add-dialog__header-text mt-4 mb-4">Расширенный фильтр</span>
+            <span class="add-dialog__header-text mt-4 mb-4"
+              >Расширенный фильтр</span
+            >
           </v-card-title>
-          <v-card-text
-            class="px-7"
-          >
+          <v-card-text class="px-7">
             <v-row>
               <v-menu
                 ref="menu"
@@ -39,11 +33,7 @@
                     style="max-width: 292px"
                   >
                     <template v-slot:prepend-inner>
-                      <v-icon
-                        :color="'#171729'"
-                        size="20"
-                        class="mr-1"
-                      >
+                      <v-icon :color="'#171729'" size="20" class="mr-1">
                         {{ mdiCalendarBlankOutline }}
                       </v-icon>
                     </template>
@@ -58,16 +48,13 @@
                   range
                 >
                   <v-spacer></v-spacer>
-                  <v-btn
-                    text
-                    color="primary"
-                    @click="menu = false"
-                  >
+                  <v-btn text color="eprimary" small @click="menu = false">
                     Cancel
                   </v-btn>
                   <v-btn
                     text
-                    color="primary"
+                    small
+                    color="eprimary"
                     @click="$refs.menu.save(purchaseDate)"
                   >
                     OK
@@ -81,15 +68,13 @@
                 @click="purchaseDate = undefined"
                 style="cursor:pointer;"
               >
-                {{mdiClose}}
+                {{ mdiClose }}
               </v-icon>
-              <v-card-text
-                class="pa-0"
-              >
+              <v-card-text class="pa-0">
                 <v-treeview
                   v-model="courseTree"
                   :items="courseTreeItems"
-                  selected-color="primary"
+                  selected-color="eprimary"
                   selectable
                   open-all
                   item-text="title"
@@ -100,19 +85,19 @@
               </v-card-text>
               <v-col v-if="isStream">
                 <div>
-                  <v-chip-group
-                    v-model="selectedTypes"
-                    multiple
-                    column
-                  >
+                  <v-chip-group v-model="selectedTypes" multiple column>
                     <v-chip
                       v-for="type in types"
                       :key="type.value"
                       :value="type.value"
                       :ripple="false"
                       :outlined="!selectedTypes.includes(type.value)"
-                      class="primary"
-                      :class="[ selectedTypes.includes(type.value) ? 'white--text' : 'primary--text' ]"
+                      color="eprimary"
+                      :class="[
+                        selectedTypes.includes(type.value)
+                          ? 'white--text'
+                          : 'primary--text',
+                      ]"
                     >
                       {{ type.title }}
                     </v-chip>
@@ -121,18 +106,16 @@
               </v-col>
             </v-row>
           </v-card-text>
-          <v-card-actions
-            class="justify-end mr-4 pb-5"
-          >
+          <v-card-actions class="justify-end mr-4 pb-5">
             <v-btn
               :ripple="false"
               :elevation="0"
               :disabled="loading"
               :loading="loading"
-              color="#0BC4B8"
+              color="#4376FB"
               type="submit"
               class="text-capitalize white--text px-sm-8 py-sm-6"
-            >Сохранить
+              >Сохранить
             </v-btn>
             <v-btn
               :ripple="false"
@@ -140,7 +123,7 @@
               color="#9FA4B1"
               class="text-capitalize white--text px-sm-8 py-sm-6 ml-5"
               @click="closeDialog"
-            >Отмена
+              >Отмена
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -153,12 +136,12 @@
 import { mdiCalendarBlankOutline, mdiChevronDown, mdiClose } from '@mdi/js'
 
 export default {
-  name: "FilterPurchaseDialog",
+  name: 'FilterPurchaseDialog',
   props: {
     dialog: Boolean,
     courses: Array,
     statuses: Array,
-    isStream: Boolean
+    isStream: Boolean,
   },
   data() {
     return {
@@ -174,17 +157,17 @@ export default {
       types: [
         {
           title: 'Онлайн',
-          value: 'online'
+          value: 'online',
         },
         {
           title: 'Оффлайн',
-          value: 'offline'
+          value: 'offline',
         },
         {
           title: 'Лайт',
-          value: 'lite'
-        }
-      ]
+          value: 'lite',
+        },
+      ],
     }
   },
 
@@ -194,28 +177,35 @@ export default {
         {
           id: 0,
           title: 'Сортировка по курсам',
-          children: this.courses
-        }
+          children: this.courses,
+        },
       ]
-    }
+    },
   },
 
   methods: {
     filterPurchase() {
-      if(this.purchaseDate.length === 2) {
+      if (this.purchaseDate.length === 2) {
         this.purchaseDate[0] > this.purchaseDate[1]
-          ? this.purchaseDate = this.purchaseDate.reverse() : undefined
-      } else if(this.purchaseDate.length === 1) {
+          ? (this.purchaseDate = this.purchaseDate.reverse())
+          : undefined
+      } else if (this.purchaseDate.length === 1) {
         this.purchaseDate[1] = this.purchaseDate[0]
       }
-      this.$emit('filter-purchase', this.purchaseDate && this.purchaseDate[0], this.purchaseDate && this.purchaseDate[1], this.courseTree, this.selectedTypes)
+      this.$emit(
+        'filter-purchase',
+        this.purchaseDate && this.purchaseDate[0],
+        this.purchaseDate && this.purchaseDate[1],
+        this.courseTree,
+        this.selectedTypes
+      )
       this.closeDialog()
     },
 
     closeDialog() {
       this.$emit('update:dialog', false)
-    }
-  }
+    },
+  },
 }
 </script>
 

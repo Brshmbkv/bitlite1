@@ -101,15 +101,15 @@
           <v-list-item-title>Потоки</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <!-- <v-list-item :ripple="false" link :to="{ name: 'TeacherExercisesIndex' }">
+      <v-list-item :ripple="false" link :to="{ name: 'TeacherExercisesIndex' }">
         <v-list-item-icon>
-          <ExercisesIcon class="change-fill" />
+          <v-icon>{{ mdiProgressCheck }}</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>Задания на проверку</v-list-item-title>
         </v-list-item-content>
-      </v-list-item> -->
-      <!-- <v-list-item
+      </v-list-item>
+      <v-list-item
         :ripple="false"
         link
         :to="{ name: 'TeacherGuidelinesIndex' }"
@@ -120,8 +120,8 @@
         <v-list-item-content>
           <v-list-item-title>Гайдлайны</v-list-item-title>
         </v-list-item-content>
-      </v-list-item> -->
-      <!-- <v-list-item
+      </v-list-item>
+      <v-list-item
         :ripple="false"
         link
         active-class="primary-text"
@@ -135,7 +135,7 @@
         <v-list-item-content>
           <v-list-item-title>Личный кабинет</v-list-item-title>
         </v-list-item-content>
-      </v-list-item> -->
+      </v-list-item>
     </template>
     <!-- TEACHER END -->
     <v-list-item :ripple="{ class: 'red--text' }" link @click="logout">
@@ -150,7 +150,7 @@
 </template>
 <script>
 import UserPlaceholderSm from '@/assets/user_placeholder_sm.png'
-import { mdiClose, mdiAccount, mdiHelpCircle } from '@mdi/js'
+import { mdiClose, mdiAccount, mdiHelpCircle, mdiProgressCheck } from '@mdi/js'
 import MyCoursesIcon from '@/assets/svg/nav_courses.svg'
 // import PurchasesIcon from '@/assets/svg/nav_purchases.svg'
 import LogOutIcon from '@/assets/svg/nav_logout.svg'
@@ -189,6 +189,7 @@ export default {
   data() {
     return {
       UserPlaceholderSm,
+      mdiProgressCheck,
       mdiAccount,
       mdiClose,
       mdiHelpCircle,
@@ -209,7 +210,7 @@ export default {
 }
 .user__navigation-list {
   .v-list-item.v-list-item--link {
-    padding: 4px 0 4px 26px;
+    padding: 4px 8px;
     border-radius: 8 !important;
   }
 
@@ -237,7 +238,6 @@ export default {
   }
 
   .v-list-item--active {
-    padding-left: 22px !important;
     background-color: #4376fb29;
     border-radius: 8 !important;
     color: #4376fb !important;

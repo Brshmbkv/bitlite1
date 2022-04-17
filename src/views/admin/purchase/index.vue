@@ -23,31 +23,24 @@
           style="background-color: white;font-weight: 600"
           @click="dialog_filter = true"
         >
-          <FilterIcon/>
-          <span class="ml-2 d-none d-md-block" style="font-size: 14px;letter-spacing: 0">Расширенный фильтр</span>
+          <v-icon size="20">{{ mdiFilterOutline }}</v-icon>
+          <span
+            class="ml-2 d-none d-md-block"
+            style="font-size: 14px;letter-spacing: 0"
+            >Фильтр</span
+          >
         </v-btn>
       </v-col>
-      <v-col
-        class="d-flex justify-space-between justify-lg-end"
-      >
-        <v-item-group
-          mandatory
-          class="mr-4"
-          v-model="purchaseType"
-        >
+      <v-col class="d-flex justify-space-between justify-lg-end">
+        <v-item-group mandatory class="mr-4" v-model="purchaseType">
           <div
             style="border: 1px solid rgba(23, 23, 41, 0.08);border-radius: 5px;background-color: white"
             class="d-flex pa-1"
           >
-            <v-col
-              v-for="d in status"
-              :key="d"
-              class="pa-0"
-              cols="6"
-            >
+            <v-col v-for="d in status" :key="d" class="pa-0" cols="6">
               <v-item v-slot="{ active, toggle }">
                 <v-card
-                  :color="active ? 'rgba(10, 204, 218, 0.15)' : 'white'"
+                  :color="active ? '#4376FB1a' : 'white'"
                   dark
                   :ripple="false"
                   width="130"
@@ -58,7 +51,7 @@
                 >
                   <div
                     class="flex-grow-1 text-center align-self-center"
-                    :style="{color: active ? '#0ACCDA' : '#9FA4B1'}"
+                    :style="{ color: active ? '#4376FB' : '#9FA4B1' }"
                   >
                     <span style="font-size: 14px">{{ d }}</span>
                   </div>
@@ -67,7 +60,7 @@
             </v-col>
           </div>
         </v-item-group>
-        <AddButton @click="dialog_add = true"/>
+        <AddButton @click="dialog_add = true" />
       </v-col>
     </v-row>
     <v-data-table
@@ -78,46 +71,63 @@
       :mobile-breakpoint="0"
       hide-default-footer
       hide-default-header
-      class="elevation-0 admin-users-table__v-table"
+      class="elevation-0"
       style="border-bottom-left-radius: 0;border-bottom-right-radius: 0;"
     >
       <template v-slot:header="{ props: { headers } }">
         <thead>
-        <tr>
-          <th
-            v-for="header in headers"
-            :key="header.value"
-            class="text-capitalize"
-          >
-            <span
-              style="cursor: pointer; gap: 4px"
-              class="d-flex align-center"
-              @click="() => {
-                header.value === 'user.first_name'
-                  ? purchaseColumn = 'users.first_name' : header.value === 'created_at'
-                    ? purchaseColumn = header.value : purchaseColumn = 'users.phone'
-
-                sortPurchase()
-              }"
+          <tr>
+            <th
+              v-for="header in headers"
+              :key="header.value"
+              class="text-capitalize"
             >
-              <SortIcon
-                v-if="header.sortable"
-              />
-              <span>{{ header.text }}</span>
-            </span>
-          </th>
-        </tr>
+              <span
+                style="cursor: pointer; gap: 4px"
+                class="d-flex align-center"
+                @click="
+                  () => {
+                    header.value === 'user.first_name'
+                      ? (purchaseColumn = 'users.first_name')
+                      : header.value === 'created_at'
+                      ? (purchaseColumn = header.value)
+                      : (purchaseColumn = 'users.phone')
+
+                    sortPurchase()
+                  }
+                "
+              >
+                <SortIcon style="fill: #A7ADC3" v-if="header.sortable" />
+                <span
+                  style="font-weight: 500;font-size: 14px;line-height: 20px;letter-spacing: 0.02em;color: #A7ADC3;"
+                  >{{ header.text }}</span
+                >
+              </span>
+            </th>
+          </tr>
         </thead>
       </template>
       <template v-slot:loading>
         <span>Загрузка...</span>
       </template>
+      <template #progress>
+        <v-progress-linear
+          class="mt-4"
+          indeterminate
+          color="#4376FB"
+        ></v-progress-linear>
+      </template>
+      <template #item.user.first_name="{item: {user}}">
+        <span style="color:#4376FB ">{{
+          `${user.first_name} ${user.last_name}`
+        }}</span>
+      </template>
       <template v-slot:item.status="{ item }">
         <v-chip
           v-if="item.status"
           style="cursor: inherit; height: 24px;"
-          :color=" item.status | getChipColor"
-          :text-color=" item.status | getChipTextColor"
+          :color="item.status | getChipColor"
+          :text-color="item.status | getChipTextColor"
           label
         >
           <span class="chip__text text-capitalize">
@@ -125,10 +135,7 @@
           </span>
         </v-chip>
       </template>
-      <template
-
-        v-slot:item.created_at="{ item }"
-      >
+      <template v-slot:item.created_at="{ item }">
         <span style="white-space: nowrap;">
           {{ item.created_at | shortFormat }}
         </span>
@@ -144,22 +151,24 @@
       <template v-slot:loading>
         <span>Загрузка...</span>
       </template>
+      <template #progress>
+        <v-progress-linear class="mt-4" indeterminate color="#4376FB"></v-progress-linear>
+      </template>
       <template v-slot:item.options="{ item }">
-        <v-hover
-          v-slot="{ hover }"
-        >
+        <v-hover>
           <template>
             <v-btn
               outlined
               icon
               height="30"
               width="30"
-              :color="'#0ACCDA'"
+              color="#4376FB"
               :ripple="false"
-              class="admin-users-table__v-btn"
+              style="border: 1px solid #4376FB;"
+              class="pen"
               @click.stop.prevent="openEditDialog(item)"
             >
-              <PenIcon :class="hover ? 'white-pen' : 'pen'"></PenIcon>
+              <PenIcon></PenIcon>
             </v-btn>
           </template>
         </v-hover>
@@ -177,12 +186,14 @@
       :dialog.sync="dialog_filter"
       :courses="courses"
       :statuses="statuses"
-      @filter-purchase="(from, to, filtered_courses) => {
-        this.purchaseFrom = from
-        this.purchaseTo = to
-        this.coursesToFilter = filtered_courses
-        this.fetchPurchases()
-      }"
+      @filter-purchase="
+        (from, to, filtered_courses) => {
+          this.purchaseFrom = from
+          this.purchaseTo = to
+          this.coursesToFilter = filtered_courses
+          this.fetchPurchases()
+        }
+      "
     ></FilterPurchaseDialog>
     <AddPurchaseDialog
       :dialog.sync="dialog_add"
@@ -202,64 +213,62 @@
 </template>
 
 <script>
-import { mdiMagnify } from '@mdi/js'
-import FilterIcon from '@/assets/svg/filter.svg'
+import { mdiMagnify, mdiFilterOutline } from '@mdi/js'
 import SortIcon from '@/assets/svg/sort-icon.svg'
 import PenIcon from '@/assets/svg/pen.svg'
-import FilterPurchaseDialog from "@/components/Admin/purchase/FilterPurchaseDialog";
+import FilterPurchaseDialog from '@/components/Admin/purchase/FilterPurchaseDialog'
 
-import AddPurchaseDialog from "@/components/Admin/purchase/AddPurchaseDialog";
-import EditPurchaseDialog from "@/components/Admin/purchase/EditPurchaseDialog";
-import AddButton from "@/components/Admin/AddButton";
+import AddPurchaseDialog from '@/components/Admin/purchase/AddPurchaseDialog'
+import EditPurchaseDialog from '@/components/Admin/purchase/EditPurchaseDialog'
+import AddButton from '@/components/Admin/AddButton'
 
 export default {
-  name: "AdminPurchaseIndex",
+  name: 'AdminPurchaseIndex',
   components: {
     AddButton,
     EditPurchaseDialog,
     AddPurchaseDialog,
     FilterPurchaseDialog,
-    FilterIcon,
     PenIcon,
     SortIcon,
   },
   filters: {
     getChipColor(value) {
       let statusBgColorMap = {
-        'created': 'rgba(23, 23, 41, 0.08)',
-        'finished': '#9FA4B1',
-        'payed': 'rgba(92, 198, 137, 0.12)',
-        'error': 'rgba(238, 82, 82, 0.12)',
-        'returned': 'rgba(241, 102, 53, 0.12)',
+        created: 'rgba(23, 23, 41, 0.08)',
+        finished: '#9FA4B1',
+        payed: 'rgba(92, 198, 137, 0.12)',
+        error: 'rgba(238, 82, 82, 0.12)',
+        returned: 'rgba(241, 102, 53, 0.12)',
       }
-      return statusBgColorMap[value] || 'chip--default';
+      return statusBgColorMap[value] || 'chip--default'
     },
 
     getChipTextColor(value) {
       let colors = {
-        'created': '#171729',
-        'finished': 'white',
-        'payed': '#5CC689',
-        'error': '#EE5252',
-        'returned': '#F16635',
+        created: '#171729',
+        finished: 'white',
+        payed: '#5CC689',
+        error: '#EE5252',
+        returned: '#F16635',
       }
       return colors[value] || 'chip--default'
     },
 
     getChipText(value) {
       let texts = {
-        'created': 'Не оплачено',
-        'finished': 'Завершенный',
-        'payed': 'Оплачено',
-        'error': 'Ошибка',
-        'returned': 'Возврат',
+        created: 'Не оплачено',
+        finished: 'Завершенный',
+        payed: 'Оплачено',
+        error: 'Ошибка',
+        returned: 'Возврат',
       }
       return texts[value] || 'Неизвестно'
     },
-
   },
   data() {
     return {
+      mdiFilterOutline,
       mdiMagnify,
       purchases: undefined,
       purchaseForEdit: undefined,
@@ -285,7 +294,7 @@ export default {
           text: 'Имя',
           align: 'start',
           value: 'user.first_name',
-          sortable: true
+          sortable: true,
         },
         { text: 'Контакт', value: 'contact', sortable: true },
         { text: 'Дата', value: 'created_at', sortable: true },
@@ -299,44 +308,41 @@ export default {
   watch: {
     purchaseType: {
       handler(newValue, oldValue) {
-        if(newValue !== oldValue && newValue < 2) {
+        if (newValue !== oldValue && newValue < 2) {
           this.currentPage = 1
           this.table_loading = true
-          this.fetchPurchases()
-            .finally(() => {
-              this.table_loading = false
-            })
+          this.fetchPurchases().finally(() => {
+            this.table_loading = false
+          })
         }
       },
-      immediate: true
+      immediate: true,
     },
 
     searchField(newValue, oldValue) {
-      if(newValue !== oldValue) {
+      if (newValue !== oldValue) {
         this.table_loading = true
         this.currentPage = 1
-        this.fetchPurchases()
-          .finally(() => {
-            this.table_loading = false
-          })
+        this.fetchPurchases().finally(() => {
+          this.table_loading = false
+        })
       }
     },
 
     purchaseColumn(newValue, oldValue) {
-      if(newValue !== oldValue) {
+      if (newValue !== oldValue) {
         this.purchaseOrder = 'asc'
       }
     },
 
     currentPage(newValue, oldValue) {
-      if(newValue > 0 && newValue !== oldValue) {
+      if (newValue > 0 && newValue !== oldValue) {
         this.table_loading = true
-        this.fetchPurchases()
-          .finally(() => {
-            this.table_loading = false
-          })
+        this.fetchPurchases().finally(() => {
+          this.table_loading = false
+        })
       }
-    }
+    },
   },
 
   mounted() {
@@ -352,21 +358,29 @@ export default {
     async fetchPurchases() {
       this.purchases = undefined
       this.table_loading = true
-      await this.$axios.get(this.purchaseType > 0 ? 'admin/purchases/payed' : 'admin/purchases/notPayed', {
-        params: {
-          column: this.purchaseColumn,
-          order: this.purchaseOrder,
-          search: this.searchField,
-          page: this.currentPage,
-          from: this.purchaseFrom,
-          to: this.purchaseTo,
-          course_id: this.coursesToFilter
-        }
-      })
-        .then(res => {
-          if(res && res.data) {
+      await this.$axios
+        .get(
+          this.purchaseType > 0
+            ? 'admin/purchases/payed'
+            : 'admin/purchases/notPayed',
+          {
+            params: {
+              column: this.purchaseColumn,
+              order: this.purchaseOrder,
+              search: this.searchField,
+              page: this.currentPage,
+              from: this.purchaseFrom,
+              to: this.purchaseTo,
+              course_id: this.coursesToFilter,
+            },
+          }
+        )
+        .then((res) => {
+          if (res && res.data) {
             this.purchases = res.data.data
-            this.totalPages = res.data.meta && Math.ceil(res.data.meta.total / res.data.meta.per_page)
+            this.totalPages =
+              res.data.meta &&
+              Math.ceil(res.data.meta.total / res.data.meta.per_page)
           }
         })
         .finally(() => {
@@ -375,32 +389,35 @@ export default {
     },
 
     async fetchCourses() {
-      await this.$axios.get('admin/purchases/courses')
-        .then(res => {
-          if(res && res.data) {
-            this.courses = res.data.courses
-            // this.statuses = res.data.status
-          }
-        })
+      await this.$axios.get('admin/purchases/courses').then((res) => {
+        if (res && res.data) {
+          this.courses = res.data.courses
+          // this.statuses = res.data.status
+        }
+      })
     },
 
     sortPurchase() {
-      this.purchaseOrder = (this.purchaseOrder === 'asc') ?
-        (this.purchaseOrder = 'desc') : this.purchaseOrder = 'asc'
+      this.purchaseOrder =
+        this.purchaseOrder === 'asc'
+          ? (this.purchaseOrder = 'desc')
+          : (this.purchaseOrder = 'asc')
       this.table_loading = true
-      this.fetchPurchases()
-        .finally(() => {
-          this.table_loading = false
-        })
+      this.fetchPurchases().finally(() => {
+        this.table_loading = false
+      })
     },
-  }
+  },
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .purchase-filter__btn {
   &::before {
     background-color: white;
   }
+}
+.pen > span > svg > path {
+  fill: #4376FB !important;
 }
 </style>

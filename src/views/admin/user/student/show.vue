@@ -1,13 +1,7 @@
 <template>
   <v-container fluid>
-    <template
-      v-if="loading"
-    >
-      <v-sheet
-        color="white"
-        class="pa-4 my-5"
-        width="100%"
-      >
+    <template v-if="loading">
+      <v-sheet color="white" class="pa-4 my-5" width="100%">
         <div class="d-flex">
           <v-skeleton-loader
             class="ma-0"
@@ -15,53 +9,30 @@
             height="120"
             type="image"
           />
-          <v-skeleton-loader
-            type="article"
-            width="100%"
-          />
+          <v-skeleton-loader type="article" width="100%" />
         </div>
         <v-row style="flex-basis: 100%">
-          <v-col
-            v-for="i in 4"
-            :key="i"
-          >
-            <v-skeleton-loader type="list-item-avatar-two-line"/>
+          <v-col v-for="i in 4" :key="i">
+            <v-skeleton-loader type="list-item-avatar-two-line" />
           </v-col>
         </v-row>
       </v-sheet>
-      <v-sheet
-        color="white"
-        class="pa-4 my-5"
-        height="270"
-      >
-        <v-skeleton-loader
-          height="200px"
-          type="table-tbody"
-        />
+      <v-sheet color="white" class="pa-4 my-5" height="270">
+        <v-skeleton-loader height="200px" type="table-tbody" />
       </v-sheet>
-      <v-sheet
-        color="white"
-        class="pa-3 my-5"
-        width="50%"
-        height="150"
-      >
-        <v-skeleton-loader
-          height="100"
-          type="table-tbody"
-        />
+      <v-sheet color="white" class="pa-3 my-5" width="50%" height="150">
+        <v-skeleton-loader height="100" type="table-tbody" />
       </v-sheet>
     </template>
     <template v-else>
       <v-row align="center">
         <v-col>
-          <BackButton/>
+          <BackButton />
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <StudentInfoAdmin
-            :user="user"
-          />
+          <StudentInfoAdmin :user="user" />
         </v-col>
       </v-row>
       <v-row>
@@ -73,21 +44,11 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col
-          md="7"
-          cols="12"
-        >
-          <StudentPaymentsAdmin
-            :payments="payments"
-          />
+        <v-col md="7" cols="12">
+          <StudentPaymentsAdmin :payments="payments" />
         </v-col>
-        <v-col
-          cols="12"
-          md="5"
-        >
-          <StudentQuestionnaireAdmin
-            :questions="questions"
-          />
+        <v-col cols="12" md="5">
+          <StudentQuestionnaireAdmin :questions="questions" />
         </v-col>
       </v-row>
     </template>
@@ -96,14 +57,14 @@
 
 <script>
 import { mdiChevronLeft } from '@mdi/js'
-import StudentPaymentsAdmin from "@/components/Admin/user/student/StudentPaymentsAdmin";
-import StudentCoursesAdmin from "@/components/Admin/user/student/StudentCoursesAdmin";
-import StudentInfoAdmin from "@/components/Admin/user/student/StudentInfoAdmin";
-import StudentQuestionnaireAdmin from "@/components/Admin/user/student/StudentQuestionnaireAdmin";
-import BackButton from "@/components/Admin/BackButton";
+import StudentPaymentsAdmin from '@/components/Admin/user/student/StudentPaymentsAdmin'
+import StudentCoursesAdmin from '@/components/Admin/user/student/StudentCoursesAdmin'
+import StudentInfoAdmin from '@/components/Admin/user/student/StudentInfoAdmin'
+import StudentQuestionnaireAdmin from '@/components/Admin/user/student/StudentQuestionnaireAdmin'
+import BackButton from '@/components/Admin/BackButton'
 
 export default {
-  name: "StudentShow",
+  name: 'StudentShow',
   components: {
     BackButton,
     StudentQuestionnaireAdmin,
@@ -119,28 +80,26 @@ export default {
       user: undefined,
       courses: undefined,
       payments: undefined,
-      questions: undefined
+      questions: undefined,
     }
   },
 
   beforeMount() {
     this.loading = true
-    this.fetchUser()
-      .finally(() => {
-        this.loading = false
-      })
+    this.fetchUser().finally(() => {
+      this.loading = false
+    })
   },
   methods: {
     async fetchUser() {
-      await this.$axios.get('admin/students/' + this.user_id)
-        .then(res => {
-          if(res && res.data) {
-            this.user = res.data.user
-            this.courses = res.data.courses
-            this.payments = res.data.purchases
-            this.questions = res.data.questionnaires
-          }
-        })
+      await this.$axios.get('admin/students/' + this.user_id).then((res) => {
+        if (res && res.data) {
+          this.user = res.data.user
+          this.courses = res.data.courses
+          this.payments = res.data.purchases
+          this.questions = res.data.questionnaires
+        }
+      })
     },
   },
 }
@@ -156,26 +115,26 @@ export default {
 .show-user__card {
   border-radius: 10px !important;
   border: 1px solid rgba(23, 23, 41, 0.08) !important;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .show-user__card-footer-top-text {
   font-weight: 500;
   font-size: 16px;
   line-height: 140%;
-  color: #5A6275;
+  color: #5a6275;
   @media screen and (max-width: 576px) {
     font-weight: 500;
     font-size: 14px;
     line-height: 140%;
-    color: #5A6275;
+    color: #5a6275;
   }
 }
 
 .show-user__card-footer-bot-text {
   font-size: 12px;
   line-height: 15px;
-  color: #9FA4B1;
+  color: #9fa4b1;
 }
 
 .show-user__label {
@@ -188,16 +147,16 @@ export default {
   p {
     font-size: 12px;
     line-height: 15px;
-    color: #9FA4B1;
+    color: #9fa4b1;
   }
 
   font-size: 14px;
   line-height: 140%;
-  color: #5A6275;
+  color: #5a6275;
 }
 
 .active-courses__buttons {
-  background: #FFFFFF;
+  background: #ffffff;
   border: 1px solid rgba(23, 23, 41, 0.08);
   border-radius: 5px;
 }

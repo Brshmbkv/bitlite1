@@ -1,13 +1,10 @@
 <template>
-  <v-form
-    id="password_change_form"
-    @submit.prevent="changePassword"
-  >
+  <v-form id="password_change_form" @submit.prevent="changePassword">
     <h2 class="mb-10">Изменить пароль</h2>
     <v-row>
-      <v-col cols=12 md=9>
+      <v-col cols="12" md="9">
         <v-row>
-          <v-col cols=12 class="py-0">
+          <v-col cols="12" class="py-0">
             <p class="profile-edit__dialog__main__label">Старый пароль</p>
             <v-text-field
               v-model="password"
@@ -15,6 +12,7 @@
               height="48"
               dense
               outlined
+              color="#4376FB"
               :type="showPassword ? 'text' : 'password'"
               :disabled="passwordLoading"
               :append-icon="showPassword ? mdiEyeOff : mdiEye"
@@ -22,7 +20,7 @@
             >
             </v-text-field>
           </v-col>
-          <v-col cols=12 class="py-0">
+          <v-col cols="12" class="py-0">
             <p class="profile-edit__dialog__main__label">Новый пароль</p>
             <v-text-field
               v-model="passwordNew"
@@ -30,19 +28,23 @@
               height="48"
               dense
               outlined
+              color="#4376FB"
               :type="showPasswordNew ? 'text' : 'password'"
               :disabled="passwordLoading"
               :append-icon="showPasswordNew ? mdiEyeOff : mdiEye"
               @click:append="showPasswordNew = !showPasswordNew"
             />
           </v-col>
-          <v-col cols=12 class="py-0">
-            <p class="profile-edit__dialog__main__label">Повторите новый пароль</p>
+          <v-col cols="12" class="py-0">
+            <p class="profile-edit__dialog__main__label">
+              Повторите новый пароль
+            </p>
             <v-text-field
               v-model="passwordRepeat"
               class="profile-edit__dialog__main__input"
               height="48"
               dense
+              color="#4376FB"
               outlined
               :type="showPasswordRepeat ? 'text' : 'password'"
               :append-icon="showPasswordRepeat ? mdiEyeOff : mdiEye"
@@ -54,15 +56,15 @@
           <v-col cols="12" md="6">
             <v-btn
               block
-              x-large
-              color="primary"
+              class="px-8"
+              color="eprimary"
               type="submit"
               form="password_change_form"
               :loading="passwordLoading"
               :disabled="!password || !passwordNew || !passwordRepeat"
               @click="changePassword"
             >
-              Сохранить
+              <span class="text-capitalize" style="color: white;">Сохранить</span>
             </v-btn>
           </v-col>
         </v-row>
@@ -72,8 +74,7 @@
 </template>
 
 <script>
-import { mdiEye, mdiEyeOff } from '@mdi/js';
-
+import { mdiEye, mdiEyeOff } from '@mdi/js'
 
 export default {
   name: 'password-update-form',
@@ -83,69 +84,77 @@ export default {
       mdiEyeOff,
       passwordLoading: false,
       passwordAlert: '',
-      password: "",
-      passwordNew: "",
-      passwordRepeat: "",
+      password: '',
+      passwordNew: '',
+      passwordRepeat: '',
       showPassword: false,
       showPasswordNew: false,
-      showPasswordRepeat: false
+      showPasswordRepeat: false,
     }
   },
   methods: {
     async changePassword() {
-      const { password, passwordNew, passwordRepeat } = this;
-      this.passwordAlert = '';
+      const { password, passwordNew, passwordRepeat } = this
+      this.passwordAlert = ''
       if (passwordNew === passwordRepeat) {
-        this.passwordLoading = true;
-        this.$axios.post('/profile/change-password', {
-          current_password: password,
-          password: passwordNew,
-          password_confirmation: passwordRepeat,
-        }).then((res) => {
-          if (res && res.data && res.data.message) {
-            this.$store.dispatch('snackbar/START_SNACKBAR', {
-              text: 'Пароль успешно изменен!',
-              color: 'success'
-            })
-          }
-        }).catch((err) => {
-          if (err && err.response && err.response.data && err.response.data.errors) {
-            // console.log( err.response.data.errors)
-            this.passwordAlert = 'Ошибки:';
-            for (const k in err.response.data.errors) {
-              this.passwordAlert += ' *'
-              this.passwordAlert += err.response.data.errors[k]
+        this.passwordLoading = true
+        this.$axios
+          .post('/profile/change-password', {
+            current_password: password,
+            password: passwordNew,
+            password_confirmation: passwordRepeat,
+          })
+          .then((res) => {
+            if (res && res.data && res.data.message) {
+              this.$store.dispatch('snackbar/START_SNACKBAR', {
+                text: 'Пароль успешно изменен!',
+                color: 'success',
+              })
             }
-            this.$store.dispatch('snackbar/START_SNACKBAR', {
-              text: this.passwordAlert,
-              color: 'red'
-            })
-            // err.response.data.errors
-          } else {
-            this.$store.dispatch('snackbar/START_SNACKBAR', {
-              text: 'Ошибка запроса!',
-              color: 'red'
-            })
-          }
-        })
+          })
+          .catch((err) => {
+            if (
+              err &&
+              err.response &&
+              err.response.data &&
+              err.response.data.errors
+            ) {
+              // console.log( err.response.data.errors)
+              this.passwordAlert = 'Ошибки:'
+              for (const k in err.response.data.errors) {
+                this.passwordAlert += ' *'
+                this.passwordAlert += err.response.data.errors[k]
+              }
+              this.$store.dispatch('snackbar/START_SNACKBAR', {
+                text: this.passwordAlert,
+                color: 'red',
+              })
+              // err.response.data.errors
+            } else {
+              this.$store.dispatch('snackbar/START_SNACKBAR', {
+                text: 'Ошибка запроса!',
+                color: 'red',
+              })
+            }
+          })
           .finally(() => {
-            this.passwordLoading = false;
+            this.passwordLoading = false
             this.clearPassword()
           })
       } else {
         this.$store.dispatch('snackbar/START_SNACKBAR', {
           text: 'Пароли не совпадают, введите данные заново',
-          color: 'red'
+          color: 'red',
         })
-        this.clearPassword();
+        this.clearPassword()
       }
     },
     clearPassword() {
-      this.password = '';
-      this.passwordNew = '';
-      this.passwordRepeat = '';
-    }
-  }
+      this.password = ''
+      this.passwordNew = ''
+      this.passwordRepeat = ''
+    },
+  },
 }
 </script>
 

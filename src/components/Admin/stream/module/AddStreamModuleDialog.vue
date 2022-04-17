@@ -5,17 +5,14 @@
       @click:outside="$emit('update:dialog', false)"
       max-width="700px"
     >
-      <v-card
-        class="px-3"
-      >
+      <v-card class="px-3">
         <v-card-title>
-          <span class="add-dialog__header-text mt-4 mb-4">Добавление модуля</span>
+          <span class="add-dialog__header-text mt-4 mb-4"
+            >Добавление модуля</span
+          >
         </v-card-title>
         <v-card-text>
-          <v-text-field
-            label="поиск по модулям"
-            v-model="search"
-          />
+          <v-text-field label="поиск по модулям" v-model="search" />
           <v-data-table
             v-model="selected_modules"
             :items="modules"
@@ -27,32 +24,30 @@
           >
             <template v-slot:header="{ props: { headers } }">
               <thead>
-              <tr>
-                <th
-                  v-for="header in headers"
-                  :key="header.value"
-                  class="text-capitalize"
-                  scope="col"
-                >
-            <span
-              style="cursor:pointer; gap: 4px"
-              class="d-flex align-center"
-              @click="$emit('order-users', header.value)"
-            >
-              <SortIcon
-                v-if="header.sortable"
-              />
-              <span>{{ header.text }}</span>
-            </span>
-                </th>
-              </tr>
+                <tr>
+                  <th
+                    v-for="header in headers"
+                    :key="header.value"
+                    class="text-capitalize"
+                    scope="col"
+                  >
+                    <span
+                      style="cursor:pointer; gap: 4px"
+                      class="d-flex align-center"
+                      @click="$emit('order-users', header.value)"
+                    >
+                      <SortIcon v-if="header.sortable" />
+                      <span>{{ header.text }}</span>
+                    </span>
+                  </th>
+                </tr>
               </thead>
             </template>
-            <template v-slot:item.options="{item}">
+            <template v-slot:item.options="{ item }">
               <v-btn
                 elevation="0"
                 :ripple="false"
-                color="#0ACCDA"
+                color="#4376FB"
                 fab
                 tile
                 style="border-radius: 5px"
@@ -62,9 +57,7 @@
                 :disabled="btn_loading"
                 @click="addModule(item.id)"
               >
-                <v-icon
-                  color="white"
-                >
+                <v-icon color="white">
                   {{ mdiPlus }}
                 </v-icon>
               </v-btn>
@@ -77,17 +70,17 @@
             :total-visible="7"
           ></v-pagination>
         </v-card-text>
-        <v-card-actions
-          class="justify-end mr-4 pb-5"
-        >
+        <v-card-actions class="justify-end mr-4 pb-5">
           <v-btn
             :ripple="false"
             :elevation="0"
             color="#9FA4B1"
             class="text-capitalize white--text px-sm-8 py-sm-6 ml-5"
-            @click="() => {
-                  $emit('update:dialog', false)
-                }"
+            @click="
+              () => {
+                $emit('update:dialog', false)
+              }
+            "
           >
             Закрыть
           </v-btn>
@@ -102,13 +95,13 @@ import SortIcon from '@/assets/svg/sort-icon.svg'
 import { mdiPlus } from '@mdi/js'
 
 export default {
-  name: "AddStreamModuleDialog",
+  name: 'AddStreamModuleDialog',
   components: {
     SortIcon,
   },
   props: {
     stream_id: Number,
-    dialog: Boolean
+    dialog: Boolean,
   },
   data() {
     return {
@@ -125,7 +118,7 @@ export default {
           text: 'ID',
           align: 'start',
           value: 'id',
-          width: '12%'
+          width: '12%',
         },
         { text: 'Название', value: 'title', sortable: true },
         { text: '', value: 'options', align: 'end' },
@@ -136,28 +129,28 @@ export default {
     dialog: {
       immediate: true,
       handler(newValue) {
-        if(newValue)
-          this.fetchModules()
-      }
+        if (newValue) this.fetchModules()
+      },
     },
     search() {
       this.fetchModules()
     },
     page() {
       this.fetchModules()
-    }
+    },
   },
   methods: {
     async fetchModules() {
       this.loading = true
-      await this.$axios.get(`admin/streams/${this.stream_id}/newModules`, {
-        params: {
-          page: this.page,
-          search: this.search,
-          paginate: 6
-        }
-      })
-        .then(res => {
+      await this.$axios
+        .get(`admin/streams/${this.stream_id}/newModules`, {
+          params: {
+            page: this.page,
+            search: this.search,
+            paginate: 6,
+          },
+        })
+        .then((res) => {
           if (res && res.data) {
             // console.log(res.data)
             this.modules = res.data.data
@@ -171,17 +164,18 @@ export default {
 
     async addModule(id) {
       this.btn_loading = true
-      await this.$axios.post(`admin/streams/addModule`, {
-        course_module_id: id,
-        group_id: this.stream_id
-      })
-        .then(res => {
+      await this.$axios
+        .post(`admin/streams/addModule`, {
+          course_module_id: id,
+          group_id: this.stream_id,
+        })
+        .then((res) => {
           if (res && res.data) {
             // console.log(res.data)
-            this.modules = this.modules.filter(module => module.id !== id)
+            this.modules = this.modules.filter((module) => module.id !== id)
             this.$store.dispatch('snackbar/START_SNACKBAR', {
               text: 'Добавлено!',
-              color: 'success'
+              color: 'success',
             })
             this.$emit('update-modules')
           }
@@ -189,11 +183,9 @@ export default {
         .finally(() => {
           this.btn_loading = false
         })
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

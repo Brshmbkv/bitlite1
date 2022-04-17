@@ -123,7 +123,8 @@ export default {
     border: 1px solid rgba(23, 23, 41, 0.2);
     box-sizing: border-box;
     border-radius: 6px;
-    background: #0bc3b8 !important;
+    background: #4376fb !important;
+    border-color: #1651e5 !important;
   }
   .v-pagination__item {
     font-size: 14px;
@@ -135,7 +136,7 @@ export default {
     font-weight: 600;
     color: #5a6275;
     &:not(.v-pagination__item--active):hover {
-      background-color: rgba(10, 204, 218, 0.24) !important;
+      background-color: #4376fb1a !important;
     }
   }
 }

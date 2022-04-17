@@ -12,19 +12,10 @@
       app
       :right="$vuetify.breakpoint.smAndDown"
       :permanent="$vuetify.breakpoint.mdAndUp"
-      :mini-variant="isMini"
-      :mini-variant-width="80"
       style="box-shadow: 6px 0 18px 0 rgba(0, 0, 0, 0.06)"
     >
-      <NavigationList
-        :fullname="(name || '') + ' ' + (surname || '')"
-        :role_id="role.id"
-        :role="role.name"
-        :is-mini="isMini"
-        :avatar="avatar"
-        @close-menu="isMini = true"
-        @open-menu="isMini = false"
-      />
+      <img src="@/assets/logo.png" alt="logo" />
+      <NavigationList @close-menu="isMini = true" @open-menu="isMini = false" />
     </v-navigation-drawer>
     <v-app-bar
       v-if="$route.meta.appBarShow || $vuetify.breakpoint.smAndDown"
@@ -49,9 +40,6 @@
       <AppBarGlobalSearch v-else>
         <Crumbs v-if="$route.meta.showCrumbs"></Crumbs>
       </AppBarGlobalSearch>
-      <!-- <template v-slot:extension>
-        <router-view name="menu-extension"/>
-      </template> -->
     </v-app-bar>
     <v-main app>
       <div class="px-md-5 py-md-3 pa-2">
@@ -66,7 +54,6 @@
 import NavigationList from './partials/admin/NavigationList'
 import SnackBar from '@/layouts/partials/SnackBar'
 import Crumbs from '@/components/Courses/Crumbs'
-import { mapState } from 'vuex'
 import AppBarContent from './partials/admin/AppBarContent'
 import AppBarGlobalSearch from '@/layouts/partials/admin/AppBarGlobalSearch'
 
@@ -85,8 +72,6 @@ export default {
       isMini: false,
     }
   },
-  computed: {
-    ...mapState('user', ['name', 'surname', 'role', 'avatar']),
-  },
+
 }
 </script>

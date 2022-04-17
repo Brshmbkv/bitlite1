@@ -2,7 +2,7 @@
   <div>
     <div class="t-guidelines-header__wrapper">
       <v-container class="t-guidelines__container">
-        <h1 class="t-guidelines__title">Гайдлайны по преподаванию</h1>
+        <h1 class="t-guidelines__title">FAQ</h1>
       </v-container>
     </div>
     <v-container class="t-guidelines__container">
@@ -154,9 +154,9 @@ export default {
     line-height: 24px;
     transition: all 0.25s ease;
     &.v-expansion-panel-header--active {
-      font-size: 22px;
-      font-weight: 700;
-      color: #0bc3b8;
+      font-size: 20px;
+      font-weight: 600;
+      color: #4376FB;
       span {
         background-color: #fff;
       }
@@ -164,7 +164,7 @@ export default {
         opacity: 0;
       }
       .t-guidelines-plus__icon {
-        background-color: #0bc3b8;
+        background-color: #4376FB;
       }
     }
   }
@@ -184,7 +184,7 @@ export default {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: #0bc3b8;
+      background-color: #4376FB;
       border-radius: 9999px;
       transition: transform 0.3s ease;
       &:nth-child(2) {
@@ -192,7 +192,7 @@ export default {
       }
     }
     &:hover {
-      background-color: rgba(#0bc3b8, 0.12);
+      background-color: rgba(#4376FB, 0.12);
     }
   }
   &-content__wrapper > .v-expansion-panel-content__wrap {
@@ -200,9 +200,10 @@ export default {
     padding: 0 24px 40px;
   }
   &-content__line {
-    width: 3px;
+    width: 4px;
+    flex-shrink: 0;
     height: 100%;
-    background-color: #0bc3b8;
+    background-color: #4376FB;
     border-radius: 9999px;
   }
   &__content {

@@ -27,7 +27,7 @@
             background-color="transparent"
             class="admin-users__v-tabs"
           >
-            <v-tabs-slider :color="'#0ACCDA'"></v-tabs-slider>
+            <v-tabs-slider :color="'#4376FB'"></v-tabs-slider>
             <v-tab
               class="text-capitalize users__v-tab"
               :ripple="false"
@@ -82,6 +82,7 @@
             v-model="searchField"
             dense
             outlined
+            color="#4376FB"
             class="admin-search__v-text-field"
             :label="searchLabelFromRoleName(tab)"
             style="max-width: 280px !important;height: 40px"

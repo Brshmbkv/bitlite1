@@ -19,19 +19,19 @@
 <script>
 import { mdiPlus } from '@mdi/js'
 export default {
-  name: "AddButton",
+  name: 'AddButton',
   data() {
     return {
       mdiPlus,
     }
-  }
+  },
 }
 </script>
 
 <style lang="scss">
 .admin__add-button {
-  background-color: rgba(92, 198, 137, 0.1);
-  border: 1px solid rgba(92, 198, 137, 0.1);
+  background-color: #4376fb1a;
+  border: 1px solid #4376fb1a;
   height: 40px;
   transition: all 0.3s ease;
   border-radius: 5px;
@@ -41,7 +41,7 @@ export default {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #5CC689;
+    color: #4376fb;
   }
 
   &::before {
@@ -49,7 +49,7 @@ export default {
   }
 
   &:hover {
-    border: 1px solid #5CC689;
+    border: 1px solid #4376fb;
   }
 }
 </style>

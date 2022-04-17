@@ -123,6 +123,7 @@
                 >
                   <button
                     class="Exercise-to-check-table-data__btn"
+                    style="background-color: #4376FB"
                     @click="
                       showModal = !showModal
                       userData = {

@@ -1,6 +1,6 @@
 <template>
   <v-row align="center" justify="center" class="Login">
-    <v-col md="6" sm="8">
+    <v-col md="6" sm="8" style="max-width: 480px;">
       <div class="Login__logo-container"></div>
       <v-alert
         :value="!!alertMessage"

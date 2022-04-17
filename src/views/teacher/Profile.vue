@@ -1,11 +1,7 @@
 <template>
   <v-container class="mt-3 mb-5">
     <v-row>
-      <v-col
-        cols="12"
-        sm="6"
-        md="4"
-      >
+      <v-col cols="12" sm="6" md="4">
         <div class="teacher-profile__col pa-5">
           <div>
             <input
@@ -23,15 +19,15 @@
               @click="$refs.avatarInput.click()"
               class="mx-auto profile__avatar"
             >
-              <v-img :src="avatar || UserPlaceholderMd"/>
+              <v-img :src="avatar || UserPlaceholderMd" />
               <v-btn
                 absolute
                 fab
                 small
                 :ripple="false"
                 elevation="0"
+                color="#4376FB"
                 style="top: 0; right: 0; border: 2px solid #FFFFFF"
-                :color="'#0BC3B8'"
               >
                 <v-icon color="#FFFFFF">
                   {{ mdiPencil }}
@@ -41,7 +37,9 @@
           </div>
           <div class="mt-3">
             <h3>{{ loading ? 'Пользователь' : full_name }}</h3>
-            <p v-if="nickname" class="profile__info-text text-center">@{{ nickname }}</p>
+            <p v-if="nickname" class="profile__info-text text-center">
+              @{{ nickname }}
+            </p>
           </div>
           <div class="align-self-start mt-4">
             <p class="teacher-profile__section-text">КОНТАКТЫ</p>
@@ -54,76 +52,121 @@
               {{ field_email }}
             </p>
           </div>
-          <div class="align-self-start mt-4" style="width: 100%" v-if="linked_in || github">
+          <!-- <div
+            class="align-self-start mt-4"
+            style="width: 100%"
+            v-if="linked_in || github"
+          >
             <p class="teacher-profile__section-text">ССЫЛКИ</p>
             <div class="d-flex flex-column">
-              <div class="teacher-profile__link mb-2" v-if="linked_in" @click="openLink(linked_in)">
-                <v-icon class="mr-1" size="26" color="#0E76A8">{{ mdiLinkedin }}</v-icon>
-                <span class="teacher-profile__link__text">{{ 'LinkedIn' }}</span>
-                <v-icon color="#9FA8B3" class="teacher-profile__link__append-icon" size="20">{{ mdiOpenInNew }}</v-icon>
+              <div
+                class="teacher-profile__link mb-2"
+                v-if="linked_in"
+                @click="openLink(linked_in)"
+              >
+                <v-icon class="mr-1" size="26" color="#0E76A8">{{
+                  mdiLinkedin
+                }}</v-icon>
+                <span class="teacher-profile__link__text">{{
+                  'LinkedIn'
+                }}</span>
+                <v-icon
+                  color="#9FA8B3"
+                  class="teacher-profile__link__append-icon"
+                  size="20"
+                  >{{ mdiOpenInNew }}</v-icon
+                >
               </div>
-              <div class="teacher-profile__link mb-2" v-if="github" @click="openLink(github)">
-                <v-icon class="mr-1" size="26" color="#171515">{{ mdiGithub }}</v-icon>
+              <div
+                class="teacher-profile__link mb-2"
+                v-if="github"
+                @click="openLink(github)"
+              >
+                <v-icon class="mr-1" size="26" color="#171515">{{
+                  mdiGithub
+                }}</v-icon>
                 <span class="teacher-profile__link__text">{{ 'GitHub' }}</span>
-                <v-icon color="#9FA8B3" class="teacher-profile__link__append-icon" size="20">{{ mdiOpenInNew }}</v-icon>
+                <v-icon
+                  color="#9FA8B3"
+                  class="teacher-profile__link__append-icon"
+                  size="20"
+                  >{{ mdiOpenInNew }}</v-icon
+                >
               </div>
             </div>
-          </div>
-          <v-divider class="align-self-stretch mt-3 mb-5"/>
-          <div class="d-flex flex-column align-self-stretch mb-2">
+          </div> -->
+          <v-divider class="align-self-stretch mt-3 mb-5" />
+          <div class="d-flex" style="gap: 16px">
             <v-btn
-              large
-              class="text-none mb-4"
+              class="text-none "
               :ripple="false"
-              color="success"
+              color="eprimary"
               elevation="0"
               :disabled="loading"
               @click="edit_dialog = true"
               style="border-radius: 5px"
+              width="40px"
+              height="40px"
+              min-width="40px"
             >
-              <v-icon class="mr-2">
+              <v-icon color="#ffffff">
                 {{ mdiPencil }}
               </v-icon>
-              Редактировать
             </v-btn>
             <v-btn
-              large
               class="text-none"
               :ripple="false"
-              color="success"
+              color="eprimary"
               elevation="0"
               outlined
               :disabled="loading"
               :to="{
-                name: 'TeacherProfileSettings'
+                name: 'TeacherProfileSettings',
               }"
               style="border-radius: 5px"
+              width="40px"
+              height="40px"
+              min-width="40px"
             >
-              <v-icon class="mr-2">
+              <v-icon>
                 {{ mdiCog }}
               </v-icon>
-              Настройки
             </v-btn>
           </div>
         </div>
       </v-col>
-      <v-col
-        cols="12"
-        md="8"
-        sm="6"
-      >
-        <div class="teacher-profile__col align-self-stretch pa-1">
+      <v-col cols="12" md="8" sm="6">
+        <div
+          class="teacher-profile__col align-self-stretch pa-1"
+          style="align-items: normal"
+        >
           <div class="teacher-profile__courses__header">
-            Я преподаю
+            Мои потоки
           </div>
-          <div class="teacher-profile__courses">
+          <div>
             <template v-if="loading">
               <div class="d-flex justify-center align-self-stretch">
-                <v-progress-circular indeterminate/>
+                <v-progress-circular indeterminate />
               </div>
             </template>
             <template v-else-if="courses.length">
-              <div
+              <ul style="list-style-type: none" class="py-6">
+                <li
+                  v-for="course in courses"
+                  :key="course.id"
+                  style="display:flex; align-items: center; gap: 16px;"
+                  class="list-item"
+                >
+                  <div class="teacher-profile__courses-item__icon-container">
+                    <component
+                      :is="logo(course.id)"
+                      class="teacher-profile__courses-item__icon"
+                    />
+                  </div>
+                  <span>{{ course.title }}</span>
+                </li>
+              </ul>
+              <!-- <div
                 v-for="course in courses"
                 :key="course.id"
                 class="teacher-profile__courses-item"
@@ -134,8 +177,10 @@
                     class="teacher-profile__courses-item__icon"
                   />
                 </div>
-                <h4 class="teacher-profile__courses-item__title text-truncate">{{ course.title }}</h4>
-              </div>
+                <h4 class="teacher-profile__courses-item__title text-truncate">
+                  {{ course.title }}
+                </h4>
+              </div> -->
             </template>
             <template v-else>
               <div class="d-flex justify-center align-self-stretch">
@@ -208,20 +253,20 @@
           ></v-progress-linear>
         </v-card-text>
         <v-card-actions>
-          <v-spacer/>
+          <v-spacer />
           <v-btn
             color="green darken-1"
             text
             :disabled="loading"
             @click="handleAvatarCropperCancel"
-          >Отмена
+            >Отмена
           </v-btn>
           <v-btn
             color="green darken-1"
             text
             :disabled="loading"
             @click="handleAvatarCropperSave"
-          >Сохранить
+            >Сохранить
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -230,13 +275,21 @@
 </template>
 
 <script>
-import { CircleStencil, Cropper } from "vue-advanced-cropper";
-import { mapState } from "vuex";
-import UserPlaceholderMd from "@/assets/user_placeholder_md.png";
-import { mdiPencil, mdiCellphone, mdiEmail, mdiCog, mdiGithub, mdiLinkedin, mdiOpenInNew } from '@mdi/js'
+import { CircleStencil, Cropper } from 'vue-advanced-cropper'
+import { mapState } from 'vuex'
+import UserPlaceholderMd from '@/assets/user_placeholder_md.png'
+import {
+  mdiPencil,
+  mdiCellphone,
+  mdiEmail,
+  mdiCog,
+  mdiGithub,
+  mdiLinkedin,
+  mdiOpenInNew,
+} from '@mdi/js'
 
 export default {
-  name: "TeacherProfile",
+  name: 'TeacherProfile',
   components: {
     ProfileEditDialog: () => import('@/components/Profile/ProfileEditDialog'),
     CircleStencil, // eslint-disable-line vue/no-unused-components
@@ -257,60 +310,71 @@ export default {
       avatarUploaded: false,
       error: false,
       error_messages: [],
-      full_name: "",
-      field_first_name: "",
-      field_nickname: "",
-      field_phone: "",
-      field_last_name: "",
-      field_email: "",
-      field_role: "",
+      full_name: '',
+      field_first_name: '',
+      field_nickname: '',
+      field_phone: '',
+      field_last_name: '',
+      field_email: '',
+      field_role: '',
       loading: true,
       edit_loading: false,
-      mask: "+#(###)###-##-##",
+      mask: '+#(###)###-##-##',
       edit_dialog: false,
       courses: [],
-    };
+    }
   },
   computed: {
-    ...mapState("user", ["phone", "avatar", "settings", "nickname", "linked_in", "github"]),
+    ...mapState('user', [
+      'phone',
+      'avatar',
+      'settings',
+      'nickname',
+      'linked_in',
+      'github',
+    ]),
   },
   mounted() {
     // fetch store values before edit
     this.$nextTick(() => {
-      this.$store.dispatch("breadcrumbs/setLinks", [
+      this.$store.dispatch('breadcrumbs/setLinks', [
         {
           text: 'Личный кабинет',
         },
-      ]);
+      ])
     })
     this.getUserFromStore()
-    this.fetchProfile().finally(() => this.loading = false)
+    this.fetchProfile().finally(() => (this.loading = false))
     // this.store.commit("")
-
   },
   methods: {
     getUserFromStore() {
       this.loading = true
-      this.$store.dispatch("user/getUser")
-        .then(() => {
-          this.field_first_name = this.$store.state.user.name;
-          this.field_last_name = this.$store.state.user.surname;
-          this.field_nickname = this.$store.state.user.nickname;
-          this.field_phone = this.$store.state.user.phone;
-          this.field_email = this.$store.state.user.email;
-          this.field_role = this.$store.state.user.role;
-          this.full_name = `${ this.field_first_name || '' } ${ this.field_last_name || '' }`
-        }, (rej) => {
-          this.loading = false;
-          console.warn("User info was not updated :( ", rej);
-        })
+      this.$store
+        .dispatch('user/getUser')
+        .then(
+          () => {
+            this.field_first_name = this.$store.state.user.name
+            this.field_last_name = this.$store.state.user.surname
+            this.field_nickname = this.$store.state.user.nickname
+            this.field_phone = this.$store.state.user.phone
+            this.field_email = this.$store.state.user.email
+            this.field_role = this.$store.state.user.role
+            this.full_name = `${this.field_first_name || ''} ${this
+              .field_last_name || ''}`
+          },
+          (rej) => {
+            this.loading = false
+            console.warn('User info was not updated :( ', rej)
+          }
+        )
         .catch((err) => {
-          this.loading = false;
-          console.error("Error in 'user' dispatching: ", err);
+          this.loading = false
+          console.error("Error in 'user' dispatching: ", err)
         })
         .finally(() => {
-          this.$nextTick(() => this.mask = "+#(###)###-##-##");
-        });
+          this.$nextTick(() => (this.mask = '+#(###)###-##-##'))
+        })
     },
 
     logo(icon) {
@@ -321,7 +385,7 @@ export default {
         3: require('@/assets/svg/catalog_cpp.svg'),
         6: require('@/assets/svg/catalog_php.svg'),
         8: require('@/assets/svg/catalog_ios.svg'),
-        9: require('@/assets/svg/catalog_php.svg')
+        9: require('@/assets/svg/catalog_php.svg'),
       }[icon]
     },
 
@@ -329,14 +393,14 @@ export default {
       try {
         const res = await this.$axios('profile')
         this.courses = res?.data?.courses || []
-      } catch(e) {
+      } catch (e) {
         throw new Error(e)
       }
     },
 
     changeInfo(user) {
-      this.edit_loading = true;
-      this.error = false;
+      this.edit_loading = true
+      this.error = false
       const {
         first_name,
         last_name,
@@ -344,127 +408,135 @@ export default {
         email,
         phone,
         linked_in,
-        github
-      } = user;
+        github,
+      } = user
       // console.log(field_first_name, field_phone, field_last_name, field_email);
-      this.$store.dispatch("user/updateInfo", {
-        ...(first_name && { first_name: first_name }),
-        ...(phone && { phone: phone.replace(/[^0-9.]/g, "") }),
-        ...(last_name && { last_name: last_name }),
-        ...((nickname || nickname === '') && { nickname: nickname }),
-        ...(email && { email: email }),
-        ...(this.field_role && { role: this.field_role }),
-        ...(linked_in && { linked_in }),
-        ...(github && { github }),
-      }).then(() => {
-        this.getUserFromStore()
-        this.edit_dialog = false
-        this.$store.dispatch('snackbar/START_SNACKBAR', {
-          text: 'Данные успешно изменены!',
-          color: 'success'
+      this.$store
+        .dispatch('user/updateInfo', {
+          ...(first_name && { first_name: first_name }),
+          ...(phone && { phone: phone.replace(/[^0-9.]/g, '') }),
+          ...(last_name && { last_name: last_name }),
+          ...((nickname || nickname === '') && { nickname: nickname }),
+          ...(email && { email: email }),
+          ...(this.field_role && { role: this.field_role }),
+          ...(linked_in && { linked_in }),
+          ...(github && { github }),
         })
-      }).catch((err) => {
-        this.error = true;
-        this.error_messages = err
-        console.error('err', err);
-        if(err.first_name || err.last_name) {
+        .then(() => {
+          this.getUserFromStore()
+          this.edit_dialog = false
           this.$store.dispatch('snackbar/START_SNACKBAR', {
-            text: 'Превышен максимум допустимых символов!',
-            color: 'red'
+            text: 'Данные успешно изменены!',
+            color: 'success',
           })
-        } else {
-          this.$store.dispatch('snackbar/START_SNACKBAR', {
-            text: 'Произошла ошибка!',
-            color: 'red'
-          })
-        }
-      }).finally(() => {
-        this.edit_loading = false;
-      });
+        })
+        .catch((err) => {
+          this.error = true
+          this.error_messages = err
+          console.error('err', err)
+          if (err.first_name || err.last_name) {
+            this.$store.dispatch('snackbar/START_SNACKBAR', {
+              text: 'Превышен максимум допустимых символов!',
+              color: 'red',
+            })
+          } else {
+            this.$store.dispatch('snackbar/START_SNACKBAR', {
+              text: 'Произошла ошибка!',
+              color: 'red',
+            })
+          }
+        })
+        .finally(() => {
+          this.edit_loading = false
+        })
     },
 
     handleAvatarChange(event) {
-      let input = event.target;
-      if(input.files && input.files[0]) {
-        let reader = new FileReader();
+      let input = event.target
+      if (input.files && input.files[0]) {
+        let reader = new FileReader()
         reader.onload = (e) => {
           // console.log(e.target.result);
           // this.imageFile = e.target.result;
-          this.avatarFile = e.target.result;
-          this.avatarCropperModal = true;
+          this.avatarFile = e.target.result
+          this.avatarCropperModal = true
           this.$nextTick(() => {
-            this.$refs.cropper.refresh();
-          });
-        };
-        reader.readAsDataURL(input.files[0]);
+            this.$refs.cropper.refresh()
+          })
+        }
+        reader.readAsDataURL(input.files[0])
       }
     },
 
     async requestAvatarChange(blob) {
-      this.loading = true;
-      this.error = false;
-      let formData = new FormData();
-      formData.append("file", blob);
+      this.loading = true
+      this.error = false
+      let formData = new FormData()
+      formData.append('file', blob)
       await this.$axios
-        .post("/profile/upload-avatar", formData, {
+        .post('/profile/upload-avatar', formData, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            'Content-Type': 'multipart/form-data',
           },
         })
         .then((res) => {
           // console.log("avatar upload: ", res);
-          if(res) {
+          if (res) {
             this.$store.dispatch('snackbar/START_SNACKBAR', {
               text: 'Аватар изменен!',
-              color: 'success'
+              color: 'success',
             })
-            this.$store.dispatch("user/getUser");
+            this.$store.dispatch('user/getUser')
           }
         })
         .catch((err) => {
-          this.error = true;
+          this.error = true
           this.$store.dispatch('snackbar/START_SNACKBAR', {
             text: err,
-            color: 'red'
+            color: 'red',
           })
         })
         .finally(() => {
-          this.loading = false;
-          this.avatarCropperModal = false;
-          this.avatarFile = undefined;
-          this.$refs.avatarInput.value = null;
-        });
+          this.loading = false
+          this.avatarCropperModal = false
+          this.avatarFile = undefined
+          this.$refs.avatarInput.value = null
+        })
     },
 
     handleAvatarCropperSave() {
-      const { canvas } = this.$refs.cropper.getResult();
+      const { canvas } = this.$refs.cropper.getResult()
       // console.log(canvas)
       // canvas.width = 200;
       // canvas.height = 200;
 
-      if(canvas) {
+      if (canvas) {
         // const form = new FormData();
-        canvas.toBlob((blob) => {
-          // form.append('file', blob);
-          this.requestAvatarChange(blob).finally(() => {
-            this.avatarCropperModal = false;
-          });
-          // Perhaps you should add the setting appropriate file format here
-        }, 'image/jpeg', 0.9);
+        canvas.toBlob(
+          (blob) => {
+            // form.append('file', blob);
+            this.requestAvatarChange(blob).finally(() => {
+              this.avatarCropperModal = false
+            })
+            // Perhaps you should add the setting appropriate file format here
+          },
+          'image/jpeg',
+          0.9
+        )
       }
     },
 
     handleAvatarCropperCancel() {
-      this.avatarCropperModal = false;
-      this.avatarFile = undefined;
-      this.$refs.avatarInput.value = null;
+      this.avatarCropperModal = false
+      this.avatarFile = undefined
+      this.$refs.avatarInput.value = null
     },
 
     openLink(url) {
-      window.open(url, "_blank")
-    }
+      window.open(url, '_blank')
+    },
   },
-};
+}
 </script>
 <style lang="scss">
 .cropper-wrapper {
@@ -499,7 +571,7 @@ export default {
   font-size: 14px;
   line-height: 16px;
   font-weight: 500;
-  color: #5A6275;
+  color: #5a6275;
   margin-bottom: 8px !important;
 
   &__name {
@@ -508,7 +580,7 @@ export default {
 }
 
 .teacher-profile__col {
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0 0 5px rgba(23, 23, 41, 0.12);
   border-radius: 10px;
   display: flex;
@@ -521,7 +593,7 @@ export default {
   line-height: 16px;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: #5A6275;
+  color: #5a6275;
   font-weight: 700;
   margin-bottom: 12px !important;
 }
@@ -530,7 +602,7 @@ export default {
   padding: 10px 8px;
   display: flex;
   align-items: center;
-  border: 1px solid #DBDFEA;
+  border: 1px solid #dbdfea;
   box-sizing: border-box;
   border-radius: 5px;
   align-self: stretch;
@@ -538,7 +610,7 @@ export default {
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #F5F6F8;
+    background-color: #f5f6f8;
   }
 
   &__text {
@@ -554,7 +626,7 @@ export default {
 }
 
 .teacher-profile__courses__header {
-  background: #F5F6F8;
+  background: #f5f6f8;
   border-radius: 7px;
   font-weight: bold;
   font-size: 18px;
@@ -593,23 +665,22 @@ export default {
   &-item {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 12px;
     padding: 8px 12px;
     position: relative;
 
     &:not(:nth-child(4)):after {
-      content: "";
+      content: '';
       position: absolute;
       width: 1px;
       height: 80%;
       right: 0;
-      background-color: #DBDFEA;
+      background-color: #dbdfea;
     }
 
     &__title {
       @extend .completed-course__card__title !optional;
-      color: #383D57;
+      color: #383d57;
       white-space: nowrap;
     }
 
@@ -626,6 +697,14 @@ export default {
         place-items: center;
       }
     }
+  }
+}
+.list-item {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  & + & {
+    margin-top: 8px;
   }
 }
 </style>

@@ -50,6 +50,9 @@
         </tr>
       </thead>
     </template>
+    <template #progress>
+      <v-progress-linear class="mt-4" indeterminate color="#4376FB"></v-progress-linear>
+    </template>
     <template v-slot:body="{ items }">
       <tbody>
         <template v-if="items.length !== 0">
@@ -84,7 +87,7 @@
             </td>
             <td>
               <div @click="$emit('openModal', item)" class="guideline-edit__icon">
-                <v-icon color="#0BC3B8" size="20">{{ mdiPencil }}</v-icon>
+                <v-icon color="#4376FB" size="20">{{ mdiPencil }}</v-icon>
               </div>
             </td>
           </tr>
@@ -260,7 +263,7 @@ export default {
   cursor: pointer;
   transition: background-color 0.3s ease;
   &:hover {
-    background-color: rgba(#0bc3b8, 0.12);
+    background-color: #4376FB1a;
   }
   &:active {
     background-color: #0bc3b8;

@@ -1,6 +1,6 @@
-import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
-Vue.use(Vuetify);
+import Vue from 'vue'
+import Vuetify from 'vuetify/lib'
+Vue.use(Vuetify)
 
 export default new Vuetify({
   theme: {
@@ -16,17 +16,18 @@ export default new Vuetify({
         live: '#F16635',
         grayLight: '#9FA4B1',
         warning: '#E7AE1E',
+        eprimary: '#4376FB',
       },
       dark: {
         primary: '#0BC4B8',
         secondary: '#66F0E3',
         live: '#F16635',
         gray: '#5A6275',
-        grayLight: '#9FA4B1'
-      }
+        grayLight: '#9FA4B1',
+      },
     },
   },
   icons: {
     iconfont: 'mdiSvg',
   },
-});
+})

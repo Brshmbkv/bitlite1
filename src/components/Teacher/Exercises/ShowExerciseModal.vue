@@ -390,11 +390,11 @@ export default {
 }
 .send-back-btn {
   padding: 12px 40px;
-  color: #0bc3b8;
-  border: 2px solid #0bc3b8;
+  color: #ef4444;
+  border: 2px solid #ef4444;
   transition: background-color 0.3s ease;
   &:hover {
-    background-color: #d8f5f3;
+    background-color: #fee2e2;
   }
 }
 .save-btn,
@@ -403,7 +403,7 @@ export default {
 }
 .save-btn {
   padding: 12px 40px;
-  background-color: #0bc3b8;
+  background-color: #4376FB;
 }
 .cancel-btn {
   padding: 12px 44px;

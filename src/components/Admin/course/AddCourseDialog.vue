@@ -1,21 +1,16 @@
 <template>
   <div class="add-dialog">
-    <v-dialog
-      v-model="dialog"
-      @click:outside="closeDialog"
-      max-width="700px"
-    >
+    <v-dialog v-model="dialog" @click:outside="closeDialog" max-width="700px">
       <v-form @submit.prevent="addCourse">
-        <v-card
-          class="px-3"
-        >
+        <v-card class="px-3">
           <v-card-title>
-            <span class="add-dialog__header-text mt-4 mb-4">Добавление курса</span>
-            <div
-              class="ml-auto d-flex"
-              style="height: 40px !important;"
+            <span class="add-dialog__header-text mt-4 mb-4"
+              >Добавление курса</span
             >
-              <p class="add-dialog__label-for-input mb-0 align-self-center">Порядок</p>
+            <div class="ml-auto d-flex" style="height: 40px !important;">
+              <p class="add-dialog__label-for-input mb-0 align-self-center">
+                Порядок
+              </p>
               <v-text-field
                 v-model="courseOrder"
                 required
@@ -25,21 +20,17 @@
                 class="add-dialog__v-text-field ml-3"
                 style="max-width: 150px; height: 40px !important;"
                 :error-messages="
-                      addCourseErrors.hasOwnProperty('order')
-                        ? addCourseErrors.order
-                          : ''
-                    "
+                  addCourseErrors.hasOwnProperty('order')
+                    ? addCourseErrors.order
+                    : ''
+                "
               >
               </v-text-field>
             </div>
           </v-card-title>
           <v-card-text>
             <v-row>
-              <v-col
-                cols="12"
-                sm="6"
-                class="py-0"
-              >
+              <v-col cols="12" sm="6" class="py-0">
                 <p class="add-dialog__label-for-input">Название курса</p>
                 <v-text-field
                   v-model="courseTitle"
@@ -47,18 +38,14 @@
                   outlined
                   dense
                   :error-messages="
-                      addCourseErrors.hasOwnProperty('title')
-                        ? addCourseErrors.title
-                          : ''
-                    "
+                    addCourseErrors.hasOwnProperty('title')
+                      ? addCourseErrors.title
+                      : ''
+                  "
                   class="add-dialog__v-text-field"
                 ></v-text-field>
               </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                class="py-0"
-              >
+              <v-col cols="12" sm="6" class="py-0">
                 <p class="add-dialog__label-for-input">Язык</p>
                 <v-select
                   :items="languages"
@@ -68,15 +55,14 @@
                   :menu-props="{ bottom: true, offsetY: true }"
                   :loading="fields_loading"
                   dense
+                  :color="'#4376FB'"
+                  :item-color="'asdasdf'"
                   class="add-dialog__v-text-field"
                   outlined
                   :append-icon="mdiUnfoldMoreHorizontal"
                 ></v-select>
               </v-col>
-              <v-col
-                cols="12"
-                class="py-0"
-              >
+              <v-col cols="12" class="py-0">
                 <p class="add-dialog__label-for-input">Описание курса</p>
                 <v-textarea
                   v-model="courseDescription"
@@ -88,10 +74,7 @@
                 >
                 </v-textarea>
               </v-col>
-              <v-col
-                cols="12"
-                class="py-0"
-              >
+              <v-col cols="12" class="py-0">
                 <p class="add-dialog__label-for-input">Список знании</p>
                 <v-textarea
                   v-model="courseBenefits"
@@ -103,11 +86,7 @@
                 >
                 </v-textarea>
               </v-col>
-              <v-col
-                cols="12"
-                sm="4"
-                class="py-0"
-              >
+              <v-col cols="12" sm="4" class="py-0">
                 <p class="add-dialog__label-for-input">Мин. очки</p>
                 <v-text-field
                   v-model="minPoints"
@@ -116,18 +95,14 @@
                   outlined
                   dense
                   :error-messages="
-                      addCourseErrors.hasOwnProperty('min_points')
-                        ? addCourseErrors.min_points
-                          : ''
-                    "
+                    addCourseErrors.hasOwnProperty('min_points')
+                      ? addCourseErrors.min_points
+                      : ''
+                  "
                   class="add-dialog__v-text-field"
                 ></v-text-field>
               </v-col>
-              <v-col
-                cols="12"
-                sm="4"
-                class="py-0"
-              >
+              <v-col cols="12" sm="4" class="py-0">
                 <p class="add-dialog__label-for-input">Ссылка трейлера</p>
                 <v-text-field
                   v-model="courseTrailer"
@@ -135,18 +110,14 @@
                   outlined
                   dense
                   :error-messages="
-                      addCourseErrors.hasOwnProperty('trailer')
-                        ? addCourseErrors.trailer
-                          : ''
-                    "
+                    addCourseErrors.hasOwnProperty('trailer')
+                      ? addCourseErrors.trailer
+                      : ''
+                  "
                   class="add-dialog__v-text-field"
                 ></v-text-field>
               </v-col>
-              <v-col
-                cols="12"
-                sm="4"
-                class="py-0"
-              >
+              <v-col cols="12" sm="4" class="py-0">
                 <p class="add-dialog__label-for-input">Длительность</p>
                 <v-text-field
                   v-model="courseDuration"
@@ -155,24 +126,22 @@
                   outlined
                   dense
                   :error-messages="
-                      addCourseErrors.hasOwnProperty('duration')
-                        ? addCourseErrors.duration
-                          : ''
-                    "
+                    addCourseErrors.hasOwnProperty('duration')
+                      ? addCourseErrors.duration
+                      : ''
+                  "
                   class="add-dialog__v-text-field"
                 ></v-text-field>
               </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                class="py-0"
-              >
+              <v-col cols="12" sm="6" class="py-0">
                 <p class="add-dialog__label-for-input">Уровень</p>
                 <v-select
                   :items="levels"
                   v-model="courseLevel"
                   item-text="value"
                   item-value="key"
+                  :color="'#4376FB'"
+                  :item-color="'asdasdf'"
                   :loading="fields_loading"
                   :menu-props="{ bottom: true, offsetY: true }"
                   dense
@@ -181,17 +150,15 @@
                   :append-icon="mdiUnfoldMoreHorizontal"
                 ></v-select>
               </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                class="py-0"
-              >
+              <v-col cols="12" sm="6" class="py-0">
                 <p class="add-dialog__label-for-input">Статус</p>
                 <v-select
                   :items="statuses"
                   v-model="courseStatus"
                   item-text="value"
                   item-value="key"
+                  :color="'#4376FB'"
+                  :item-color="'asdasdf'"
                   :loading="fields_loading"
                   :menu-props="{ bottom: true, offsetY: true }"
                   dense
@@ -202,18 +169,23 @@
               </v-col>
             </v-row>
           </v-card-text>
-          <v-card-actions
-            class="justify-end mr-4 pb-5"
-          >
+          <v-card-actions class="justify-end mr-4 pb-5">
             <v-btn
               :ripple="false"
               :elevation="0"
-              :disabled="!courseTitle || !courseOrder || !minPoints || !courseLevel || !courseStatus || loading"
+              :disabled="
+                !courseTitle ||
+                  !courseOrder ||
+                  !minPoints ||
+                  !courseLevel ||
+                  !courseStatus ||
+                  loading
+              "
               :loading="loading"
-              color="#0BC4B8"
+              color="#4376FB"
               type="submit"
               class="text-capitalize white--text px-sm-8 py-sm-6"
-            >Сохранить
+              >Сохранить
             </v-btn>
             <v-btn
               :ripple="false"
@@ -221,7 +193,7 @@
               color="#9FA4B1"
               class="text-capitalize white--text px-sm-8 py-sm-6 ml-5"
               @click="closeDialog"
-            >Отмена
+              >Отмена
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -233,9 +205,8 @@
 <script>
 import { mdiUnfoldMoreHorizontal } from '@mdi/js'
 
-
 export default {
-  name: "AddCourseDialog",
+  name: 'AddCourseDialog',
   props: {
     dialog: {
       type: Boolean,
@@ -264,7 +235,7 @@ export default {
       courseDuration: '',
       levels: undefined,
       languages: undefined,
-      statuses: undefined
+      statuses: undefined,
     }
   },
 
@@ -272,18 +243,17 @@ export default {
     dialog: {
       immediate: true,
       handler(newValue) {
-        if(newValue)
-          this.fetchSelectField()
-      }
+        if (newValue) this.fetchSelectField()
+      },
     },
     nextOrder: {
       immediate: true,
       handler(newValue, oldValue) {
-        if(newValue !== oldValue) {
+        if (newValue !== oldValue) {
           this.courseOrder = this.nextOrder
         }
       },
-    }
+    },
   },
 
   methods: {
@@ -308,7 +278,7 @@ export default {
         this.levels = res?.data?.level
         this.statuses = res?.data?.status
         this.languages = res?.data?.language
-      } catch(e) {
+      } catch (e) {
         console.log(e)
       }
       this.fields_loading = false
@@ -316,30 +286,31 @@ export default {
     async addCourse() {
       this.loading = true
       this.addCourseErrors = []
-      await this.$axios.post('admin/courses', {
-        title: this.courseTitle,
-        description: this.courseDescription,
-        min_points: this.minPoints,
-        order: this.courseOrder,
-        duration: this.courseDuration,
-        level: this.courseLevel,
-        status: this.courseStatus,
-        features: this.courseBenefits,
-        trailer: this.courseTrailer,
-      })
+      await this.$axios
+        .post('admin/courses', {
+          title: this.courseTitle,
+          description: this.courseDescription,
+          min_points: this.minPoints,
+          order: this.courseOrder,
+          duration: this.courseDuration,
+          level: this.courseLevel,
+          status: this.courseStatus,
+          features: this.courseBenefits,
+          trailer: this.courseTrailer,
+        })
         .then(() => {
           this.$emit('refresh')
           this.closeDialog()
         })
-        .catch(err => {
-          if(err.response && err.response.data && err.response.data.errors) {
+        .catch((err) => {
+          if (err.response && err.response.data && err.response.data.errors) {
             this.addCourseErrors = err.response.data.errors
           }
         })
         .finally(() => {
           this.loading = false
         })
-    }
-  }
+    },
+  },
 }
 </script>

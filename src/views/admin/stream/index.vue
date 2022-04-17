@@ -2,10 +2,10 @@
   <v-container fluid>
     <template v-if="loading">
       <v-row class="flex-column">
-        <v-col cols=12 class="d-flex">
-          <v-skeleton-loader class="mr-3" type="button"/>
-          <v-skeleton-loader class="ml-auto mr-3" type="button"/>
-          <v-skeleton-loader type="button"/>
+        <v-col cols="12" class="d-flex">
+          <v-skeleton-loader class="mr-3" type="button" />
+          <v-skeleton-loader class="ml-auto mr-3" type="button" />
+          <v-skeleton-loader type="button" />
         </v-col>
         <v-col>
           <v-skeleton-loader
@@ -27,6 +27,7 @@
             dense
             outlined
             class="admin-search__v-text-field"
+            color="#4376FB"
             :label="'Поиск по потокам'"
             style="max-width: 280px !important;height: 40px"
           />
@@ -40,7 +41,7 @@
             style="background-color: white;font-weight: 600"
             @click="filter_dialog = true"
           >
-            <FilterIcon class="mr-2"/>
+            <v-icon class="mr-2" size="20">{{ mdiFilterOutline }}</v-icon>
             Фильтры
           </v-btn>
         </div>
@@ -61,12 +62,9 @@
                 cols="12"
                 sm="6"
               >
-                <v-item
-                  v-slot="{ active, toggle }"
-                  :value="s.value"
-                >
+                <v-item v-slot="{ active, toggle }" :value="s.value">
                   <v-card
-                    :color="active ? 'rgba(10, 204, 218, 0.15)' : 'white'"
+                    :color="active ? '#4376FB1a' : 'white'"
                     dark
                     :ripple="false"
                     :width="$vuetify.breakpoint.width < 600 ? '100%' : '140px'"
@@ -77,7 +75,7 @@
                   >
                     <div
                       class="flex-grow-1 text-center align-self-center"
-                      :style="{color: active ? '#0ACCDA' : '#9FA4B1'}"
+                      :style="{ color: active ? '#4376FB' : '#9FA4B1' }"
                     >
                       {{ s.name }}
                     </div>
@@ -86,7 +84,7 @@
               </v-col>
             </v-row>
           </v-item-group>
-          <AddButton @click="$router.push({ name: 'AdminStreamNew' })"/>
+          <AddButton @click="$router.push({ name: 'AdminStreamNew' })" />
         </div>
       </div>
 
@@ -96,18 +94,24 @@
         :paginate-number="paginateNumber"
         :sort_loading="sort_loading"
         :current-page="currentPage"
-        @fetch-streams="(page) => {
-          this.currentPage = page
-          this.fetchStreams
-        }"
-        @edit-stream="(id) => {
-          this.streamForEditID = id
-          this.dialog_edit = true
-        }"
-        @order-users="(column) => {
-          this.streamColumn = column
-          this.sortStream()
-        }"
+        @fetch-streams="
+          (page) => {
+            this.currentPage = page
+            this.fetchStreams
+          }
+        "
+        @edit-stream="
+          (id) => {
+            this.streamForEditID = id
+            this.dialog_edit = true
+          }
+        "
+        @order-users="
+          (column) => {
+            this.streamColumn = column
+            this.sortStream()
+          }
+        "
         @delete-stream="deleteStream"
       >
       </StreamsTable>
@@ -131,36 +135,43 @@
         :courses="courses"
         :value="['offline', 'online']"
         is-stream
-        @filter-purchase="(from, to, filtered_courses, filtered_types) => {
-          this.filterFrom = from
-          this.filterTo = to
-          this.coursesToFilter = filtered_courses
-          this.filter_types = filtered_types
-          this.fetchStreams()
-        }"
+        @filter-purchase="
+          (from, to, filtered_courses, filtered_types) => {
+            this.filterFrom = from
+            this.filterTo = to
+            this.coursesToFilter = filtered_courses
+            this.filter_types = filtered_types
+            this.fetchStreams()
+          }
+        "
       />
     </template>
   </v-container>
 </template>
 
 <script>
-
-import { mdiMagnify } from '@mdi/js'
-import FilterIcon from '@/assets/svg/filter.svg'
-import StreamsTable from "@/components/Admin/stream/StreamsTable";
-import AddStreamDialog from "@/components/Admin/stream/AddStreamDialog";
-import EditStreamDialog from "@/components/Admin/stream/EditStreamDialog";
-import FilterPurchaseDialog from "@/components/Admin/purchase/FilterPurchaseDialog";
-import AddButton from "@/components/Admin/AddButton";
+import { mdiMagnify, mdiFilterOutline } from '@mdi/js'
+import StreamsTable from '@/components/Admin/stream/StreamsTable'
+import AddStreamDialog from '@/components/Admin/stream/AddStreamDialog'
+import EditStreamDialog from '@/components/Admin/stream/EditStreamDialog'
+import FilterPurchaseDialog from '@/components/Admin/purchase/FilterPurchaseDialog'
+import AddButton from '@/components/Admin/AddButton'
 
 export default {
-  name: "AdminStreamIndex",
-  components: { AddButton, FilterPurchaseDialog, EditStreamDialog, AddStreamDialog, StreamsTable, FilterIcon },
+  name: 'AdminStreamIndex',
+  components: {
+    AddButton,
+    FilterPurchaseDialog,
+    EditStreamDialog,
+    AddStreamDialog,
+    StreamsTable,
+  },
   data() {
     return {
       loading: false,
       sort_loading: false,
       mdiMagnify,
+      mdiFilterOutline,
       dialog_add: false,
       dialog_edit: false,
       paginateNumber: 10,
@@ -184,23 +195,22 @@ export default {
       statuses: [
         {
           name: 'Активные',
-          value: 1
+          value: 1,
         },
         {
           name: 'Завершенные',
-          value: 0
-        }
-      ]
+          value: 0,
+        },
+      ],
     }
   },
   watch: {
     currentPage(newValue, oldValue) {
       if (newValue >= 0 && newValue !== oldValue) {
         this.sort_loading = true
-        this.fetchStreams()
-          .finally(() => {
-            this.sort_loading = false
-          })
+        this.fetchStreams().finally(() => {
+          this.sort_loading = false
+        })
       }
     },
 
@@ -214,10 +224,9 @@ export default {
       if (newValue !== oldValue) {
         this.sort_loading = true
         this.currentPage = 1
-        this.fetchStreams()
-          .finally(() => {
-            this.sort_loading = false
-          })
+        this.fetchStreams().finally(() => {
+          this.sort_loading = false
+        })
       }
     },
 
@@ -227,45 +236,46 @@ export default {
     },
 
     filter_dialog(newValue) {
-      if(newValue)
-        this.fetchCourses()
-    }
+      if (newValue) this.fetchCourses()
+    },
   },
 
   mounted() {
     this.loading = true
-    this.fetchStreams()
-      .finally(() => {
-        this.loading = false
-      })
+    this.fetchStreams().finally(() => {
+      this.loading = false
+    })
   },
 
   methods: {
     async fetchStreams() {
       this.streams = undefined
       this.sort_loading = true
-      await this.$axios.get('admin/streams', {
-        params: {
-          page: this.currentPage,
-          order: this.streamOrderBy,
-          column: this.streamColumn,
-          paginate: this.paginateNumber,
-          search: this.searchField,
-          active: this.status,
-          course_ids: this.coursesToFilter,
-          from: this.filterFrom,
-          to: this.filterTo,
-          types: this.filter_types
-        }
-      })
-        .then(res => {
+      await this.$axios
+        .get('admin/streams', {
+          params: {
+            page: this.currentPage,
+            order: this.streamOrderBy,
+            column: this.streamColumn,
+            paginate: this.paginateNumber,
+            search: this.searchField,
+            active: this.status,
+            course_ids: this.coursesToFilter,
+            from: this.filterFrom,
+            to: this.filterTo,
+            types: this.filter_types,
+          },
+        })
+        .then((res) => {
           if (res && res.data) {
             console.log('admin/streams', res.data)
             this.streams = res.data.data
             this.types = res.data.types
             this.per_page = res.data.meta && Number(res.data.meta.per_page)
             this.total_streams = res.data.meta && res.data.meta.total
-            this.total_pages = res.data.meta && Math.ceil(res.data.meta.total / res.data.meta.per_page)
+            this.total_pages =
+              res.data.meta &&
+              Math.ceil(res.data.meta.total / res.data.meta.per_page)
           }
         })
         .finally(() => {
@@ -274,22 +284,22 @@ export default {
     },
 
     async fetchCourses() {
-      await this.$axios.get('admin/purchases/courses')
-        .then(res => {
-          if(res && res.data) {
-            this.courses = res.data.courses
-          }
-        })
+      await this.$axios.get('admin/purchases/courses').then((res) => {
+        if (res && res.data) {
+          this.courses = res.data.courses
+        }
+      })
     },
 
     sortStream() {
-      this.streamOrderBy = (this.streamOrderBy === 'asc') ?
-        (this.streamOrderBy = 'desc') : this.streamOrderBy = 'asc'
+      this.streamOrderBy =
+        this.streamOrderBy === 'asc'
+          ? (this.streamOrderBy = 'desc')
+          : (this.streamOrderBy = 'asc')
       this.sort_loading = true
-      this.fetchStreams()
-        .finally(() => {
-          this.sort_loading = false
-        })
+      this.fetchStreams().finally(() => {
+        this.sort_loading = false
+      })
     },
 
     async deleteStream(id) {
@@ -297,13 +307,13 @@ export default {
         await this.$axios.delete(`admin/groups/${id}`)
         this.$store.dispatch('snackbar/START_SNACKBAR', {
           text: 'Удалено!',
-          color: 'success'
+          color: 'success',
         })
         this.fetchStreams()
-      } catch(e) {
+      } catch (e) {
         throw new Error(e)
       }
-    }
+    },
   },
 }
 </script>

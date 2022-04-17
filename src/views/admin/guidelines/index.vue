@@ -4,7 +4,7 @@
       <div class="guidelines__left">
         <h1 class="guidelines__title">
           Статьи /
-          <router-link :to="{ name: 'AdminTagsIndex' }">Tэги</router-link>
+          <router-link style="color: #4376FB" :to="{ name: 'AdminTagsIndex' }">Tэги</router-link>
         </h1>
         <div class="guidelines-search-form">
           <input
@@ -12,7 +12,7 @@
             v-model="search"
             placeholder="Поиск по статьям"
           />
-          <button class="guidelines-search-form__btn" @click="searchData">
+          <button style="background-color: #4376FB" class="guidelines-search-form__btn" @click="searchData">
             <SearchIcon />
           </button>
         </div>
@@ -24,7 +24,7 @@
           @clearFilters="clearFilters"
           @applyFilters="applyFilters"
         >
-          <template v-slot:body>
+          <template #body>
             <div class="guidelines-filter__top">
               <span class="guidelines-filter-top__text">Тэги:</span>
               <v-icon class="guidelines-filter-top__chevron-down" size="24">{{
@@ -50,7 +50,7 @@
           <TrashIcon />
           <span>Удалить</span>
         </button>
-        <button class="guidelines-add__btn" @click.stop="openModal()">
+        <button style="background-color: #4376FB;" class="guidelines-add__btn" @click.stop="openModal()">
           <span>Добавить</span>
         </button>
       </div>

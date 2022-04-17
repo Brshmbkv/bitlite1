@@ -17,7 +17,12 @@
             <v-card-text>
               <v-row>
                 <v-col cols="12" sm="6" class="py-0">
-                  <p class="add-dialog__label-for-input">Имя</p>
+                  <p
+                    class="mb-0"
+                    style="font-size: 12px; line-height: 24px; letter-spacing: 0.02em; font-weight: 600;"
+                  >
+                    Имя
+                  </p>
                   <v-text-field
                     v-model="user.first_name"
                     required
@@ -32,7 +37,12 @@
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" class="py-0">
-                  <p class="add-dialog__label-for-input">Фамилия</p>
+                  <p
+                    class="mb-0"
+                    style="font-size: 12px; line-height: 24px; letter-spacing: 0.02em; font-weight: 600;"
+                  >
+                    Фамилия
+                  </p>
                   <v-text-field
                     v-model="user.last_name"
                     required
@@ -42,7 +52,12 @@
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" class="py-0">
-                  <p class="add-dialog__label-for-input">Контактный телефон</p>
+                  <p
+                    class="mb-0"
+                    style="font-size: 12px; line-height: 24px; letter-spacing: 0.02em; font-weight: 600;"
+                  >
+                    Контактный телефон
+                  </p>
                   <v-text-field
                     v-model="user.phone"
                     v-mask="'+ # (###) ###-##-##'"
@@ -60,7 +75,12 @@
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" class="py-0">
-                  <p class="add-dialog__label-for-input">Почта</p>
+                  <p
+                    class="mb-0"
+                    style="font-size: 12px; line-height: 24px; letter-spacing: 0.02em; font-weight: 600;"
+                  >
+                    Почта
+                  </p>
                   <v-text-field
                     v-model="user.email"
                     required
@@ -77,7 +97,12 @@
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" class="py-0">
-                  <p class="add-dialog__label-for-input">Роль</p>
+                  <p
+                    class="mb-0"
+                    style="font-size: 12px; line-height: 24px; letter-spacing: 0.02em; font-weight: 600;"
+                  >
+                    Роль
+                  </p>
                   <v-select
                     :items="roles"
                     v-model="user.role_id"
@@ -87,11 +112,18 @@
                     dense
                     class="add-dialog__v-text-field"
                     outlined
+                    :color="'#4376FB'"
+                    :item-color="'asdasdf'"
                     :append-icon="mdiUnfoldMoreHorizontal"
                   ></v-select>
                 </v-col>
                 <v-col cols="12" class="py-0">
-                  <p class="add-dialog__label-for-input">Пароль</p>
+                  <p
+                    class="mb-0"
+                    style="font-size: 12px; line-height: 24px; letter-spacing: 0.02em; font-weight: 600;"
+                  >
+                    Пароль
+                  </p>
                   <v-text-field
                     v-model="userPassword"
                     required
@@ -119,6 +151,7 @@
                     v-model="user.is_test"
                     dense
                     hide-details
+                    color="#4376FB"
                     :ripple="false"
                     :label="'Тестовый пользователь'"
                     class="font-weight-medium add-user-dialog__checkbox"
@@ -129,6 +162,7 @@
                     v-model="emailVerified"
                     :disabled="user.email_verified_at ? true : false"
                     dense
+                    color="#4376FB"
                     hide-details
                     :ripple="false"
                     :label="'Почта подтверждена'"
@@ -144,7 +178,7 @@
                 :disabled="
                   !user.email || !user.first_name || !user.phone || loading
                 "
-                color="#0BC4B8"
+                color="#4376FB"
                 :loading="loading"
                 type="submit"
                 class="text-capitalize white--text px-sm-8 py-sm-6"

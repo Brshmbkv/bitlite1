@@ -181,8 +181,6 @@ export default {
       module_is_active: undefined,
       group_name: '',
       stream_id: undefined,
-      // UserPlaceholderSm,
-      // mdiLock,
       mdiCircle,
     }
   },

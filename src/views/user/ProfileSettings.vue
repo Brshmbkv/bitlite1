@@ -1,69 +1,39 @@
 <template>
-  <div>
-    <div
-      style="background-color: #F5F6F8"
-    >
-      <v-container>
-        <template v-if="loading">
-          <v-col cols=12>
-            <v-skeleton-loader class="d-inline-block mr-3" type="button"/>
-            <v-skeleton-loader class="d-inline-block mr-3" type="button"/>
-            <v-skeleton-loader class="d-inline-block mr-3" type="button"/>
-          </v-col>
-        </template>
-        <v-row
-          v-else-if="tabs && tabs.length > 0">
-          <v-col
-            cols="12"
-            class="d-flex pb-0"
-            style="overflow-x: auto;"
-          >
-            <div
-              v-for="(tab) in tabs"
-              :key="'course_tabs_'+ tab.id"
-              class="CourseIndex__tab"
-              :class="{
-                'CourseIndex__tab--disabled': loading,
-                'CourseIndex__tab--active profile-settings__tab--active': currentTab === tab.id
-              }"
-              @click="currentTab = tab.id"
-            >
-              <span>{{ tab.title }}</span>
-            </div>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
-    <v-container class="pt-10">
-      <v-tabs-items v-model="currentTab">
-        <v-tab-item :value="0">
-          <PasswordUpdateForm
-            :loading="loading"
-            @setLoading="(value) => (this.loading = value)"
-          />
-        </v-tab-item>
-<!--        <v-tab-item :value="1">-->
-<!--          <telegram-qr-tab/>-->
-<!--        </v-tab-item>-->
-        <v-tab-item :value="1">
-          <AdditionalSettings
-            :settings="settings"
-            :nickname="nickname"
-          />
-        </v-tab-item>
-      </v-tabs-items>
-    </v-container>
-  </div>
+  <v-container>
+    <v-tabs class="mb-8 admin-users__v-tabs" color="eprimary">
+      <v-tab
+        v-for="tab in tabs"
+        :key="'course_tabs_' + tab.id"
+        @click="currentTab = tab.id"
+      >
+        {{ tab.title }}</v-tab
+      >
+    </v-tabs>
+    <v-tabs-items v-model="currentTab">
+      <v-tab-item :value="0">
+        <PasswordUpdateForm
+          :loading="loading"
+          @setLoading="(value) => (this.loading = value)"
+        />
+      </v-tab-item>
+      <!--        <v-tab-item :value="1">-->
+      <!--          <telegram-qr-tab/>-->
+      <!--        </v-tab-item>-->
+      <!-- <v-tab-item :value="1">
+        <AdditionalSettings :settings="settings" :nickname="nickname" />
+      </v-tab-item> -->
+    </v-tabs-items>
+  </v-container>
 </template>
 
 <script>
-import PasswordUpdateForm from "@/components/Profile/PasswordUpdateForm";
-import AdditionalSettings from "@/components/Profile/AdditionalSettings";
-import { mapState } from "vuex";
+import PasswordUpdateForm from '@/components/Profile/PasswordUpdateForm'
+// import AdditionalSettings from '@/components/Profile/AdditionalSettings'
+import { mapState } from 'vuex'
 
 export default {
-  name: "ProfileSettings",
-  components: { PasswordUpdateForm, AdditionalSettings },
+  name: 'ProfileSettings',
+  components: { PasswordUpdateForm },
   data() {
     return {
       currentTab: 0,
@@ -75,43 +45,37 @@ export default {
       tabs: [
         {
           id: 0,
-          title: 'Пароль'
+          title: 'Пароль',
         },
-        {
-          id: 1,
-          title: 'Дополнительные'
-        }
       ],
-      loading: false
+      loading: false,
     }
   },
   computed: {
-    ...mapState("user", ["settings", "nickname", "role"]),
+    ...mapState('user', ['settings', 'nickname', 'role']),
   },
   mounted() {
     this.$nextTick(() => {
-      this.$store.dispatch("breadcrumbs/setLinks", [
+      this.$store.dispatch('breadcrumbs/setLinks', [
         {
           text: 'Личный кабинет',
           to: {
-            name: this.role.id === 2 ? "Profile" : "TeacherProfile",
+            name: this.role.id === 2 ? 'Profile' : 'TeacherProfile',
           },
         },
         {
           text: 'Настройки портала',
           disabled: true,
         },
-      ]);
+      ])
     })
   },
-  methods: {
-
-  }
+  methods: {},
 }
 </script>
 
 <style lang="scss">
 .profile-settings__tab--active {
-  color: #0BC3B8 !important;
+  color: #0bc3b8 !important;
 }
 </style>

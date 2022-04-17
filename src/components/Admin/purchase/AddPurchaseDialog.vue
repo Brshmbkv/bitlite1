@@ -1,24 +1,16 @@
 <template>
   <div class="add-dialog">
-    <v-dialog
-      v-model="dialog"
-      @click:outside="closeDialog"
-      max-width="800px"
-    >
+    <v-dialog v-model="dialog" @click:outside="closeDialog" max-width="800px">
       <v-form @submit.prevent="addPurchase">
-        <v-card
-          class="px-3"
-        >
+        <v-card class="px-3">
           <v-card-title>
-            <span class="add-dialog__header-text mt-4 mb-4">Создание заявки</span>
+            <span class="add-dialog__header-text mt-4 mb-4"
+              >Создание заявки</span
+            >
           </v-card-title>
           <v-card-text>
             <v-row>
-              <v-col
-                cols="12"
-                md="6"
-                class="py-0"
-              >
+              <v-col cols="12" md="6" class="py-0">
                 <p class="add-dialog__label-for-input">Имя</p>
                 <v-text-field
                   v-model="purchaseUserName"
@@ -28,11 +20,7 @@
                   class="add-dialog__v-text-field"
                 />
               </v-col>
-              <v-col
-                cols="12"
-                md="6"
-                class="py-0"
-              >
+              <v-col cols="12" md="6" class="py-0">
                 <p class="add-dialog__label-for-input">Почта</p>
                 <v-text-field
                   v-model="purchaseUserEmail"
@@ -40,10 +28,10 @@
                   outlined
                   dense
                   :error-messages="
-                      addPurchaseErrors.hasOwnProperty('email')
-                        ? addPurchaseErrors.email
-                          : ''
-                    "
+                    addPurchaseErrors.hasOwnProperty('email')
+                      ? addPurchaseErrors.email
+                      : ''
+                  "
                   class="add-dialog__v-text-field"
                 />
               </v-col>
@@ -54,23 +42,27 @@
                   v-model="purchaseCourse"
                   item-text="title"
                   item-value="id"
+                  item-color="#4376FB"
+                  color="#4376FB"
                   :menu-props="{ bottom: true, offsetY: true }"
                   dense
                   class="add-dialog__v-text-field"
                   outlined
                   :disabled="!purchaseUserEmail"
                   :error-messages="
-                      addPurchaseErrors.hasOwnProperty('course_id')
-                        ? addPurchaseErrors.course_id
-                          : ''
-                    "
+                    addPurchaseErrors.hasOwnProperty('course_id')
+                      ? addPurchaseErrors.course_id
+                      : ''
+                  "
                   :append-icon="mdiUnfoldMoreHorizontal"
-                  @change="() => {
-                    if(!!this.purchaseUserEmail) {
-                      this.fetchModules()
-                      this.fetchGroups()
+                  @change="
+                    () => {
+                      if (!!this.purchaseUserEmail) {
+                        this.fetchModules()
+                        this.fetchGroups()
+                      }
                     }
-                  }"
+                  "
                 />
               </v-col>
               <v-col cols="12" sm="6" class="py-0">
@@ -80,6 +72,8 @@
                   v-model="purchaseGroup"
                   item-text="name"
                   item-value="id"
+                  item-color="#4376FB"
+                  color="#4376FB"
                   :menu-props="{ bottom: true, offsetY: true }"
                   dense
                   class="add-dialog__v-text-field"
@@ -149,10 +143,7 @@
                   </v-date-picker>
                 </v-menu>
               </v-col> -->
-              <v-col
-                cols="12"
-                class="py-0"
-              >
+              <v-col cols="12" class="py-0">
                 <p class="add-dialog__label-for-input">Комментарий</p>
                 <v-textarea
                   v-model="purchaseComment"
@@ -163,26 +154,20 @@
                   class="add-dialog__v-text-field"
                 />
               </v-col>
-              <v-col
-                v-if="modules"
-                cols="12"
-                class="py-0"
-              >
-                <div
-                  class="d-flex"
-                >
+              <v-col v-if="modules" cols="12" class="py-0">
+                <div class="d-flex">
                   <p class="add-dialog__label-for-input">Модули курса</p>
-                  <p class="add-dialog__label-for-input ml-auto">Открыть доступ</p>
+                  <p class="add-dialog__label-for-input ml-auto">
+                    Открыть доступ
+                  </p>
                 </div>
-                <div
-                  v-for="module in modules"
-                  :key="module.id"
-                  class="d-flex"
-                >
+                <div v-for="module in modules" :key="module.id" class="d-flex">
                   <p
                     class="add-dialog__label-for-input mr-10 mb-0 align-self-center"
                     style="font-size: 14px;width: 150px"
-                  >{{module.title}}</p>
+                  >
+                    {{ module.title }}
+                  </p>
                   <v-text-field
                     v-model="module.paid"
                     required
@@ -202,7 +187,7 @@
                       label="Да"
                       :ripple="false"
                       class="select-option__radio align-self-center"
-                      style="color: #171729 !important;"
+                      color="#4376FB"
                       :value="true"
                     />
                     <v-radio
@@ -210,32 +195,32 @@
                       :ripple="false"
                       :value="false"
                       class="select-option__radio align-self-center"
-                      style="color: #171729 !important;"
+                      color="#4376FB"
                     />
                   </v-radio-group>
                 </div>
               </v-col>
             </v-row>
           </v-card-text>
-          <v-card-actions
-            class="justify-end mr-4 pb-5"
-          >
+          <v-card-actions class="justify-end mr-4 pb-5">
             <v-btn
               :ripple="false"
               :elevation="0"
               :disabled="!purchaseCourse || !purchaseUserEmail || loading"
               :loading="loading"
-              color="#0BC4B8"
+              color="#4376FB"
               type="submit"
               class="text-capitalize white--text px-sm-8 py-sm-6"
-            >Сохранить</v-btn>
+              >Сохранить</v-btn
+            >
             <v-btn
               :ripple="false"
               :elevation="0"
               color="#9FA4B1"
               class="text-capitalize white--text px-sm-8 py-sm-6 ml-5"
               @click="closeDialog"
-            >Отмена</v-btn>
+              >Отмена</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-form>
@@ -244,11 +229,14 @@
 </template>
 
 <script>
-import { mdiUnfoldMoreHorizontal, mdiCalendarBlankOutline, mdiClose } from '@mdi/js'
-
+import {
+  mdiUnfoldMoreHorizontal,
+  mdiCalendarBlankOutline,
+  mdiClose,
+} from '@mdi/js'
 
 export default {
-  name: "AddPurchaseDialog",
+  name: 'AddPurchaseDialog',
   props: {
     dialog: {
       type: Boolean,
@@ -275,7 +263,7 @@ export default {
       purchaseGroup: undefined,
       modules: undefined,
       // statuses: [],
-      groups: undefined
+      groups: undefined,
     }
   },
 
@@ -292,35 +280,39 @@ export default {
     },
 
     fetchModules() {
-      this.modules = this.courses.find(course => course.id === this.purchaseCourse)?.modules
-      this.modules = this.modules.map(module => {
+      this.modules = this.courses.find(
+        (course) => course.id === this.purchaseCourse
+      )?.modules
+      this.modules = this.modules.map((module) => {
         return {
           ...module,
           course_module_id: module.id,
           payed: false,
-          paid: 0
+          paid: 0,
         }
       })
     },
 
     async fetchGroups() {
-      await this.$axios.get(`admin/purchases/courses/${this.purchaseCourse}/groups`)
-        .then(res => {
-          if(res && res.data) {
+      await this.$axios
+        .get(`admin/purchases/courses/${this.purchaseCourse}/groups`)
+        .then((res) => {
+          if (res && res.data) {
             this.groups = res.data
           }
         })
     },
 
     async saveModule(m_id, m_paid, m_payed) {
-      await this.$axios.post('admin/purchases/update', {
-        id: m_id,
-        paid: m_paid,
-        payed: m_payed,
-      })
-        .then(res => {
+      await this.$axios
+        .post('admin/purchases/update', {
+          id: m_id,
+          paid: m_paid,
+          payed: m_payed,
+        })
+        .then((res) => {
           // TODO Сделать здесь что-то
-          if(res && res.data) {
+          if (res && res.data) {
             console.log(res.data)
           }
         })
@@ -329,30 +321,31 @@ export default {
     async addPurchase() {
       this.loading = true
       this.addPurchaseErrors = []
-      await this.$axios.post('admin/purchases/store/list', {
-        first_name: this.purchaseUserName,
-        email: this.purchaseUserEmail,
-        course_id: this.purchaseCourse,
-        stream_id: this.purchaseGroup,
-        modules: this.modules
-      })
+      await this.$axios
+        .post('admin/purchases/store/list', {
+          first_name: this.purchaseUserName,
+          email: this.purchaseUserEmail,
+          course_id: this.purchaseCourse,
+          stream_id: this.purchaseGroup,
+          modules: this.modules,
+        })
         .then((res) => {
-          if(res?.data?.binded_to_group) {
+          if (res?.data?.binded_to_group) {
             console.log('check ur groups pls')
             this.$store.dispatch('snackbar/START_SNACKBAR', {
               text: 'Сохранено!',
-              color: 'success'
+              color: 'success',
             })
           } else {
             this.$store.dispatch('snackbar/START_SNACKBAR', {
               text: 'Заявка сохранена, но студент не был добавлен в группу!',
-              color: 'yellow'
+              color: 'yellow',
             })
           }
           this.$emit('update-purchases')
           this.closeDialog()
         })
-        .catch(err => {
+        .catch((err) => {
           if (err.response && err.response.data && err.response.data.errors) {
             this.addPurchaseErrors = err.response.data.errors
           }
@@ -360,8 +353,8 @@ export default {
         .finally(() => {
           this.loading = false
         })
-    }
-  }
+    },
+  },
 }
 </script>
 

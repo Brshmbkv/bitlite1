@@ -29,14 +29,14 @@ export default {
 }
 .show-user__questionnaire__answer {
   display: block;
-  border-left: 3px solid #0ACCDA;
+  border-left: 3px solid #4376FB;
   font-weight: 500;
   transition: all 0.4s ease;
   position: relative;
 
   &:before {
     content: "";
-    background-color: rgba(11, 195, 184, 0.12);
+    background-color: #4376FB1a;
     transition: width 0.5s ease;
     position: absolute;
     width: 0;
