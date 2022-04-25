@@ -107,6 +107,8 @@
                   v-model="moduleType"
                   item-text="value"
                   item-value="key"
+                  item-color="eprimary"
+                  color="eprimary"
                   :menu-props="{ bottom: true, offsetY: true }"
                   dense
                   class="add-dialog__v-text-field"
@@ -124,7 +126,7 @@
               :elevation="0"
               :disabled="!moduleName || !modulePrice || !moduleMaxPoints || !moduleType || loading"
               :loading="loading"
-              color="#0BC4B8"
+              color="#4376FB"
               type="submit"
               class="text-capitalize white--text px-sm-8 py-sm-6"
             >Сохранить

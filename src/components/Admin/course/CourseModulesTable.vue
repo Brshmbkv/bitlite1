@@ -7,61 +7,69 @@
       hide-default-footer
       hide-default-header
       @click:row="changeToModuleShowPage"
-      class="elevation-0 mt-3 admin-users-table__v-table"
-      style="border-bottom-left-radius: 0;border-bottom-right-radius: 0;"
+      class="elevation-0 mt-3"
+      disable-sort
     >
       <template v-slot:header="{ props: { headers } }">
         <thead class="v-data-table-header">
-        <tr>
-          <th
-            v-for="header in headers"
-            :key="header.value"
-            class="text-capitalize"
-            scope="col"
-          >
-            <span
-              style="cursor:pointer; gap: 4px"
-              class="d-flex align-center"
-              @click="$emit('order-users', header.value)"
+          <tr>
+            <th
+              v-for="header in headers"
+              :key="header.value"
+              class="text-capitalize"
+              scope="col"
             >
-              <SortIcon v-if="header.sortable"/>
-              <span>{{ header.text }}</span>
-            </span>
-          </th>
-        </tr>
+              <span
+                class="d-flex align-center"
+                @click="$emit('order-users', header.value)"
+              >
+                <span>{{ header.text }}</span>
+              </span>
+            </th>
+          </tr>
         </thead>
       </template>
-      <template v-slot:item.options="{item}">
-        <v-hover
-          v-slot="{ hover }"
-        >
-          <template>
-            <v-btn
-              outlined
-              icon
-              height="30"
-              width="30"
-              :color="'#0ACCDA'"
-              :ripple="false"
-              class="admin-users-table__v-btn"
-              @click.stop.prevent="$emit('edit-module', item)"
-            >
-              <PenIcon :class="hover ? 'white-pen' : 'pen'" ></PenIcon>
-            </v-btn>
-          </template>
-        </v-hover>
-        <v-btn
-          outlined
-          icon
-          height="30"
-          width="30"
-          :color="'#EE5252'"
-          :ripple="false"
-          class="admin-stream-modules-table__v-btn ml-2"
-          @click.stop.prevent="removeModuleBefore(item)"
-        >
-          <TrashIcon></TrashIcon>
-        </v-btn>
+      <template #body="{items}">
+        <tbody>
+          <tr
+            v-for="item in items"
+            :key="item.id"
+            style="cursor: pointer"
+            @click="changeToModuleShowPage(item)"
+          >
+            <td>{{ item.id }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.order }}</td>
+            <td>{{ item.max_points }}</td>
+            <td>
+              <v-btn
+                outlined
+                icon
+                height="30"
+                width="30"
+                color="#4376FB"
+                :ripple="false"
+                style="border: 1px solid #4376FB;"
+                @click.stop.prevent="$emit('edit-module', item)"
+              >
+                <PenIcon></PenIcon>
+              </v-btn>
+              <v-btn
+                outlined
+                icon
+                height="30"
+                width="30"
+                :color="'#EE5252'"
+                :ripple="false"
+                class="admin-stream-modules-table__v-btn ml-2"
+                @click.stop.prevent="removeModuleBefore(item)"
+              >
+                <TrashIcon></TrashIcon>
+              </v-btn>
+            </td>
+          </tr>
+        </tbody>
       </template>
     </v-data-table>
     <ConfirmationModal
@@ -76,23 +84,21 @@
 </template>
 
 <script>
-import ConfirmationModal from "@/components/Admin/ConfirmationModal";
-import SortIcon from '@/assets/svg/sort-icon.svg'
+import ConfirmationModal from '@/components/Admin/ConfirmationModal'
 import TrashIcon from '@/assets/svg/trash.svg'
 import { mdiPencilOutline } from '@mdi/js'
 import PenIcon from '@/assets/svg/pen.svg'
 
 export default {
-  name: "CourseModulesTable",
+  name: 'CourseModulesTable',
   components: {
     ConfirmationModal,
     TrashIcon,
-    SortIcon,
     PenIcon,
   },
   props: {
     course_id: Number,
-    modules: Array
+    modules: Array,
   },
   data() {
     return {
@@ -108,11 +114,11 @@ export default {
           value: 'id',
           sortable: true,
         },
-        { text: 'Название', value: 'title', sortable: true, },
-        { text: 'Стоимость', value: 'price', sortable: true, },
+        { text: 'Название', value: 'title', sortable: true },
+        { text: 'Стоимость', value: 'price', sortable: true },
         { text: 'Порядок', value: 'order' },
         { text: 'Макс. очки', value: 'max_points' },
-        { text: '', value: 'options', align: 'end', },
+        { text: 'Действия', value: 'options', align: 'start' },
       ],
     }
   },
@@ -122,8 +128,8 @@ export default {
         name: 'AdminModuleShow',
         params: {
           course_id: this.course_id,
-          module_id: item.id
-        }
+          module_id: item.id,
+        },
       })
     },
 
@@ -136,21 +142,22 @@ export default {
 
     async removeModule() {
       this.remove_loading = true
-      await this.$axios.delete(`admin/modules/${this.module_id}`)
-        .then(res => {
-          if(res && res.data) {
+      await this.$axios
+        .delete(`admin/modules/${this.module_id}`)
+        .then((res) => {
+          if (res && res.data) {
             this.$emit('refresh')
             this.$store.dispatch('snackbar/START_SNACKBAR', {
               text: 'Удалено!',
-              color: 'success'
+              color: 'success',
             })
           }
         })
-        .catch(err => {
-          if(err && err.response) {
+        .catch((err) => {
+          if (err && err.response) {
             this.$store.dispatch('snackbar/START_SNACKBAR', {
               text: 'Ошибка!',
-              color: 'error'
+              color: 'error',
             })
           }
         })
@@ -160,8 +167,7 @@ export default {
           this.module_id = undefined
           this.remove_loading = false
         })
-    }
-  }
+    },
+  },
 }
 </script>
-

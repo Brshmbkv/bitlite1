@@ -6,16 +6,15 @@
       max-width="700px"
     >
       <v-form @submit.prevent="addChapter">
-        <v-card
-          class="px-3"
-        >
+        <v-card class="px-3">
           <v-card-title>
-            <span class="add-dialog__header-text mt-4 mb-4">Добавление главы</span>
-            <div
-              class="ml-auto d-flex"
-              style="height: 40px !important;"
+            <span class="add-dialog__header-text mt-4 mb-4"
+              >Добавление главы</span
             >
-              <p class="add-dialog__label-for-input mb-0 align-self-center">Порядок</p>
+            <div class="ml-auto d-flex" style="height: 40px !important;">
+              <p class="add-dialog__label-for-input mb-0 align-self-center">
+                Порядок
+              </p>
               <v-text-field
                 v-model="chapterOrder"
                 required
@@ -25,20 +24,17 @@
                 class="add-dialog__v-text-field ml-3"
                 style="max-width: 150px; height: 40px !important;"
                 :error-messages="
-                      addChapterErrors.hasOwnProperty('order')
-                        ? addChapterErrors.order
-                          : ''
-                    "
+                  addChapterErrors.hasOwnProperty('order')
+                    ? addChapterErrors.order
+                    : ''
+                "
               >
               </v-text-field>
             </div>
           </v-card-title>
           <v-card-text>
             <v-row>
-              <v-col
-                cols="12"
-                class="py-0"
-              >
+              <v-col cols="12" class="py-0">
                 <p class="add-dialog__label-for-input">Название главы</p>
                 <v-text-field
                   v-model="chapterTitle"
@@ -46,17 +42,14 @@
                   outlined
                   dense
                   :error-messages="
-                      addChapterErrors.hasOwnProperty('title')
-                        ? addChapterErrors.title
-                          : ''
-                    "
+                    addChapterErrors.hasOwnProperty('title')
+                      ? addChapterErrors.title
+                      : ''
+                  "
                   class="add-dialog__v-text-field"
                 ></v-text-field>
               </v-col>
-              <v-col
-                cols="12"
-                class="py-0"
-              >
+              <v-col cols="12" class="py-0">
                 <p class="add-dialog__label-for-input">Описание главы</p>
                 <v-textarea
                   v-model="chapterDescription"
@@ -70,31 +63,31 @@
               </v-col>
             </v-row>
           </v-card-text>
-          <v-card-actions
-            class="justify-end mr-4 pb-5"
-          >
+          <v-card-actions class="justify-end mr-4 pb-5">
             <v-btn
               :ripple="false"
               :elevation="0"
               :disabled="!chapterTitle || !chapterOrder || loading"
               :loading="loading"
-              color="#0BC4B8"
+              color="#4376FB"
               type="submit"
               class="text-capitalize white--text px-sm-8 py-sm-6"
-            >Сохранить
+              >Сохранить
             </v-btn>
             <v-btn
               :ripple="false"
               :elevation="0"
               color="#9FA4B1"
               class="text-capitalize white--text px-sm-8 py-sm-6 ml-5"
-              @click="() => {
+              @click="
+                () => {
                   $emit('close-dialog')
                   this.addChapterErrors = []
                   this.chapterTitle = ''
                   this.chapterDescription = ''
-                }"
-            >Отмена
+                }
+              "
+              >Отмена
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -105,10 +98,9 @@
 
 <script>
 import { mdiUnfoldMoreHorizontal } from '@mdi/js'
-  
 
 export default {
-  name: "AddChapterDialog",
+  name: 'AddChapterDialog',
   props: {
     dialog: {
       type: Boolean,
@@ -119,8 +111,8 @@ export default {
       default: -1,
     },
     course_module_id: {
-      type: [Number, String]
-    }
+      type: [Number, String],
+    },
   },
   data() {
     return {
@@ -140,25 +132,26 @@ export default {
           this.chapterOrder = this.nextOrder
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
 
   methods: {
     async addChapter() {
       this.loading = true
       this.addChapterErrors = []
-      await this.$axios.post('admin/chapters', {
-        title: this.chapterTitle,
-        description: this.chapterDescription,
-        course_module_id: this.course_module_id,
-        order: this.chapterOrder,
-      })
+      await this.$axios
+        .post('admin/chapters', {
+          title: this.chapterTitle,
+          description: this.chapterDescription,
+          course_module_id: this.course_module_id,
+          order: this.chapterOrder,
+        })
         .then(() => {
           this.$emit('close-dialog')
           this.$emit('update-chapters')
         })
-        .catch(err => {
+        .catch((err) => {
           if (err.response && err.response.data && err.response.data.errors) {
             this.addChapterErrors = err.response.data.errors
           }
@@ -166,7 +159,7 @@ export default {
         .finally(() => {
           this.loading = false
         })
-    }
-  }
+    },
+  },
 }
 </script>

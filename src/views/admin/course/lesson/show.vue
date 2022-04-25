@@ -15,11 +15,12 @@
       class="admin__course-container"
     >
       <p class="d-flex justify-space-between align-center">
-        <span class="text-h5 font-weight-medium">Контент лекции</span>
+        <span class="text-h5 font-weight-bold">Контент лекции</span>
         <v-btn
           :ripple="false"
           :outlined="!editMode"
-          color="primary"
+          color="eprimary"
+          :style="{color: editMode? 'white !important': ''}"
           class="text-none d-flex align-center"
           elevation="0"
           @click="editMode = !editMode"
@@ -63,11 +64,16 @@
         :headers="headers"
         :items="exercises"
         :mobile-breakpoint="0"
+        hide-default-footer
+        disable-sort
         :items-per-page="10"
-        class="elevation-0 mt-3 admin-users-table__v-table"
-        style="border-bottom-left-radius: 0;border-bottom-right-radius: 0;"
+        class="elevation-0 mt-3 "
         :loading="loading"
       >
+        <template #loading>Загрузка...</template>
+        <template #progress>
+          <v-progress-linear color="#4376FB" class="mt-4" indeterminate></v-progress-linear>
+        </template>
         <template v-slot:[`item.level_coef`]="{ item }">
             <span>
               {{
@@ -78,27 +84,20 @@
             </span>
         </template>
         <template v-slot:[`item.options`]="{ item }">
-          <v-hover
-            v-slot="{ hover }"
-          >
-            <template>
               <v-btn
                 outlined
                 icon
                 height="30"
                 width="30"
-                :color="'#0ACCDA'"
+                color="#4376FB"
                 :ripple="false"
-                class="admin-users-table__v-btn"
                 @click.stop.prevent="() => {
                     dialog_edit = true
                     exerciseForEdit = item
                   }"
               >
-                <PenIcon :class="hover ? 'white-pen' : 'pen'"></PenIcon>
+                <PenIcon ></PenIcon>
               </v-btn>
-            </template>
-          </v-hover>
         </template>
       </v-data-table>
       <AddExerciseDialog

@@ -1,23 +1,20 @@
 <template>
   <v-container fluid>
-    <div
-      class="d-flex justify-space-between align-center"
-    >
-      <span style="font-size: 20px; font-weight: 700">{{ module && module.title }}</span>
+    <div class="d-flex justify-space-between align-center">
+      <h1 style="font-weight: 700;font-size: 28px;line-height: 42px;">
+        {{ module && module.title }}
+      </h1>
       <v-btn
-          class="text-capitalize add-courses-module__btn"
-          text
-          :ripple="false"
-          @click="dialog_add = true"
+        class="text-capitalize add-courses-module__btn"
+        text
+        :ripple="false"
+        @click="dialog_add = true"
       >
         <span style="font-size: 18px;margin-right: 6px">+</span>
         Добавить главу
       </v-btn>
     </div>
-    <v-card
-      elevation="0"
-      style="border-radius: 3px"
-    >
+    <v-card elevation="0" style="border-radius: 3px">
       <v-data-table
         :headers="headers"
         :items="chapters"
@@ -25,32 +22,43 @@
         hide-default-footer
         hide-default-header
         :loading="loading"
+        disable-sort
         @click:row="changeToChapterShowPage"
-        class="elevation-0 mt-3 admin-users-table__v-table"
+        class="elevation-0 mt-8"
         style="border-bottom-left-radius: 0;border-bottom-right-radius: 0;"
       >
+        <template #header="{props: {headers}}">
+          <thead>
+            <tr>
+              <th v-for="header in headers" :key="header.text">
+                <span>{{ header.text }}</span>
+              </th>
+            </tr>
+          </thead>
+        </template>
         <template v-slot:item.options="{ item }">
-          <v-hover
-              v-slot="{ hover }"
+          <v-btn
+            outlined
+            icon
+            height="30"
+            width="30"
+            color="#4376FB"
+            :ripple="false"
+            @click.stop.prevent="
+              () => {
+                dialog_edit = true
+                chapterForEdit = item
+              }
+            "
           >
-            <template>
-              <v-btn
-                  outlined
-                  icon
-                  height="30"
-                  width="30"
-                  :color="'#0ACCDA'"
-                  :ripple="false"
-                  class="admin-users-table__v-btn"
-                  @click.stop.prevent="() => {
-                    dialog_edit = true
-                    chapterForEdit = item
-                  }"
-              >
-                <PenIcon :class="hover ? 'white-pen' : 'pen'" ></PenIcon>
-              </v-btn>
-            </template>
-          </v-hover>
+            <PenIcon></PenIcon>
+          </v-btn>
+        </template>
+        <template #loading>
+          Загрузка
+        </template>
+        <template #progress>
+          <v-progress-linear indeterminate color="#4376FB" class="mt-4" />
         </template>
       </v-data-table>
     </v-card>
@@ -72,13 +80,12 @@
 </template>
 
 <script>
-
-import AddChapterDialog from "@/components/Admin/course/AddChapterDialog";
+import AddChapterDialog from '@/components/Admin/course/AddChapterDialog'
 import PenIcon from '@/assets/svg/pen.svg'
-import EditChapterDialog from "@/components/Admin/course/EditChapterDialog";
+import EditChapterDialog from '@/components/Admin/course/EditChapterDialog'
 
 export default {
-  name: "AdminModuleShow",
+  name: 'AdminModuleShow',
   components: {
     EditChapterDialog,
     AddChapterDialog,
@@ -99,53 +106,53 @@ export default {
           text: 'ID',
           align: 'start',
           value: 'id',
-          sortable: true
+          sortable: true,
         },
         { text: 'Название', value: 'title', sortable: true },
         { text: 'Порядок', value: 'order', sortable: true },
-        { text: '', value: 'options', align: 'end', sortable: false },
+        { text: 'Действия', value: 'options', sortable: false },
       ],
     }
   },
   mounted() {
-    this.fetchModule()
-      .then(() => {
-        this.$store.dispatch("breadcrumbs/setLinks", [
-          {
-            text: 'Все курсы',
-            to: {
-              name: "AdminCoursesIndex",
+    this.fetchModule().then(() => {
+      this.$store.dispatch('breadcrumbs/setLinks', [
+        {
+          text: 'Все курсы',
+          to: {
+            name: 'AdminCoursesIndex',
+          },
+        },
+        {
+          text: this.module.course.title,
+          to: {
+            name: 'AdminCourseShow',
+            params: {
+              course_id: this.course_id,
             },
           },
-          {
-            text: this.module.course.title,
-            to: {
-              name: "AdminCourseShow",
-              params: {
-                course_id: this.course_id,
-              },
-            },
-          },
-          {
-            text: this.module.title,
-            disabled: true,
-            // to: { name: 'LessonShow', params: { lesson_id: this.lesson_id }}
-          },
-        ]);
-      })
+        },
+        {
+          text: this.module.title,
+          disabled: true,
+          // to: { name: 'LessonShow', params: { lesson_id: this.lesson_id }}
+        },
+      ])
+    })
   },
   methods: {
     async fetchModule() {
       this.loading = true
-      await this.$axios.get('admin/modules/' + this.module_id + '/chapters')
-        .then(res => {
-          if(res && res.data) {
+      await this.$axios
+        .get('admin/modules/' + this.module_id + '/chapters')
+        .then((res) => {
+          if (res && res.data) {
             this.chapters = res.data.chapters
             this.module = res.data
             this.course_id = res.data.course.id
           }
         })
-        .finally(() => this.loading = false)
+        .finally(() => (this.loading = false))
     },
 
     changeToChapterShowPage(item) {
@@ -154,10 +161,10 @@ export default {
         params: {
           course_id: this.course_id,
           module_id: this.module_id,
-          chapter_id: item.id
-        }
+          chapter_id: item.id,
+        },
       })
-    }
+    },
   },
 }
 </script>

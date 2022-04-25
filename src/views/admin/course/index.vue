@@ -13,25 +13,25 @@
         </v-col>
       </v-row>
       <template v-if="loading">
-        <v-card
-          v-for="n in 5"
-          :key="n"
-          class="my-4"
-          style="display: flex"
-          elevation="0"
-        >
-          <v-col cols="4">
-            <v-skeleton-loader type="article" height="150" />
-          </v-col>
-          <v-col cols="4">
-            <v-skeleton-loader type="article" height="150" />
-          </v-col>
-          <v-col cols="4">
-            <v-skeleton-loader type="avatar" />
-          </v-col>
-        </v-card>
+        <v-skeleton-loader type="table"></v-skeleton-loader>
       </template>
-      <v-data-table class="mt-6" :headers="headers" :items="courses" hide-default-footer disable-sort>
+      <v-data-table
+        class="mt-6"
+        :headers="headers"
+        :items="courses"
+        hide-default-footer
+        disable-sort
+        @click:row="
+          (item) => {
+            $router.push({
+              name: 'AdminCourseShow',
+              params: {
+                course_id: item.id,
+              },
+            })
+          }
+        "
+      >
         <template #item.total_paid="{item: {total_paid}}">
           <span style="color: #5cc689;">+ {{ total_paid }} KZT</span>
         </template>

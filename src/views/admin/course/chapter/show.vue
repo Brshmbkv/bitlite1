@@ -7,12 +7,11 @@
       <p class="chapter__title font-weight-bold mt-3 mb-6">
         {{ chapter_title }}
       </p>
-      <v-divider style="border-color:rgba(23, 23, 41, 0.08);" />
       <v-row justify="space-between" class="my-7 mx-1">
         <h2 class="chapter__subtitle mb-0 align-self-center">Лекции</h2>
         <div>
           <v-btn
-            class="chapter__btn text-capitalize"
+            class="add-courses-module__btn text-capitalize mr-4"
             text
             :ripple="false"
             :to="{
@@ -25,7 +24,9 @@
             урок
           </v-btn>
           <v-btn
-            class="chapter__btn text-capitalize"
+            color="eprimary"
+            elevation="0"
+            style="background-color: #4376FB; color: #ffffff !important; text-transform: capitalize"
             text
             :ripple="false"
             :to="{
@@ -46,9 +47,14 @@
           :loading="loading"
           hide-default-footer
           @click:row="changeToLessonShowPage"
-          class="elevation-0 mt-3 admin-users-table__v-table"
+          disable-sort
+          class="elevation-0 mt-4"
           style="border-bottom-left-radius: 0;border-bottom-right-radius: 0;"
         >
+          <template #loading>Загрузка...</template>
+          <template #progress>
+            <v-progress-linear indeterminate color="#4376FB" class="mt-4" />
+          </template>
           <template v-slot:no-data>
             <CoursesEmptyPlaceholder
               :text="'Нету уроков'"
@@ -73,6 +79,7 @@
                     outlined
                     dense
                     height="40"
+                    color="#4376FB"
                     background-color="#FFFFFF"
                     label="Название"
                     hide-details
@@ -83,6 +90,7 @@
                     v-model="material.link"
                     outlined
                     dense
+                    color="#4376FB"
                     height="40"
                     background-color="#FFFFFF"
                     label="Ссылка"
@@ -93,6 +101,7 @@
                   <v-text-field
                     v-model="material.order"
                     outlined
+                    color="#4376FB"
                     dense
                     height="40"
                     background-color="#FFFFFF"
@@ -105,6 +114,7 @@
                     v-model="material.description"
                     dense
                     outlined
+                    color="#4376FB"
                     auto-grow
                     height="60"
                     hide-details
@@ -117,8 +127,10 @@
                     <v-btn
                       :ripple="false"
                       elevation="0"
-                      class="success text-none mr-2"
+                      class="text-none mr-2 text-white"
+                      style="color: white !important;"
                       large
+                      color="eprimary"
                       :loading="add_material_loading || material_loading"
                       :disabled="
                         !material.title || !material.link || !material.order
@@ -149,15 +161,19 @@
             :mobile-breakpoint="0"
             :loading="material_loading"
             hide-default-footer
-            class="elevation-0 mt-3 admin-users-table__v-table"
-            style="border-bottom-left-radius: 0;border-bottom-right-radius: 0;"
-            no-data-text="Пусто"
+            class="elevation-0 mt-3 test-table"
+            disable-sort
+            no-data-text="Нету дополнительных материалов"
           >
             <template v-slot:item.tools="{ item }">
               <EditDropDownButton
                 @edit="editMaterial(item)"
                 @delete="deleteMaterial(item.id)"
               />
+            </template>
+            <template #loading>Загрузка...</template>
+            <template #progress>
+              <v-progress-linear indeterminate color="#4376FB" class="mt-4" />
             </template>
           </v-data-table>
         </v-col>
@@ -193,8 +209,8 @@ export default {
           sortable: true,
         },
         { text: 'Название', value: 'title', sortable: true },
-        { text: 'Тип', value: 'type.name', sortable: true },
         { text: 'Порядок', value: 'order', sortable: true },
+        { text: 'Тип', value: 'type.name', sortable: true },
       ],
       material_headers: [
         { text: '#', align: 'start', value: 'order', sortable: true },
@@ -356,3 +372,10 @@ export default {
   },
 }
 </script>
+<style lang="scss">
+.test-table .v-data-table__wrapper {
+  overflow: unset;
+  overflow-x: auto;
+  padding-block: 16px;
+}
+</style>
